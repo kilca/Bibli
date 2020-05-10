@@ -6,7 +6,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import et3.java.projet.application.Systeme;
+import et3.java.projet.application.documents.*;
 
 public class FileReader 
 {
@@ -177,6 +181,84 @@ public class FileReader
                 
                 //TODO Do something with data
             	
+            	//TODO Changer pour respecter chacune des classes
+            		//Certain livre peuvent etre des autre
+            	
+            		//On pourrait mettre dans switch case aussi
+            		if (type.substring(0, 5).equals("Livre")) {
+            			
+            			Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname));
+            			
+            		}else {
+            			switch (type) {
+            			
+            			//------------Livre-------
+	              		  case "Usuels":
+	              		  case "Methode de langue":
+		              			Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname));
+		              			  break; 
+	              			  
+	              		  case "Revue de Fonds specialises":
+	              		  case "Revue jeunesse":
+	              		  case "Revue pour adulte":
+	              			Systeme.ajouterDocument(new Revue(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  case "Vinyle":
+	              			Systeme.ajouterDocument(new Vinyle(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  case "Bande dessinee pour jeunesse":
+	              		  case "Bande dessinee jeunesse":
+	              		  case "Bande dessinee pour adulte":
+	              		  case "Bande dessinee jeunesse >12 ans":
+	              		  case "BD adulte non reservable":
+	              			Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  case "Partition":
+	              		  case "Methode musicale":
+		              		Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname));
+		              		  break;
+	              			  
+	              		  case "Carte ou plan":
+	              			  Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              			  //-----------------Pas livre----------
+	              			  
+	              		  case "Enregistrement musical pour la jeunesse":
+	              		  case "DVD-video tous publics":
+	              		  case "DVD jeunesse":
+	              		  case "Disque compact":
+	              		  case "DVD- video > 12 ans":
+	              		  case "DVD-video > 16 ans":
+	              		  case "DVD- video > 18 ans":
+	              			  Systeme.ajouterDocument(new CD(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  case "Jeux Videos tous publics":
+	              		  case "Jeux videos > 18 ans":
+	              			  Systeme.ajouterDocument(new JeuVideo(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  case "Jeux de societe":
+	              			  Systeme.ajouterDocument(new JeuDeSociete(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  break;
+	              			  
+	              		  // --------------- Autre --------
+	              			  //Autre : Diapositive jeunesse, Non empruntable, Documents numeriques, nouveaute
+	              		  default:
+	              			  Systeme.ajouterDocument(new Autre(ean.toString(), title, publisher, date, authorName, authorSurname));
+	              			  //System.out.println("type not found :"+type);
+            			
+            			}
+            			
+            		}
+
+            	
+            		
+            	/*
                 System.out.println(
                 		isbn + ";" +
                 		ean + ";" +
@@ -194,6 +276,8 @@ public class FileReader
                 		numberCopyJeanPierreMelville + ";" +
                 		numberCopyOscarWilde + ";" +
                 		numberCopySaintSimon);
+                */
+                
             }
         } 
         catch (IOException exception) 
