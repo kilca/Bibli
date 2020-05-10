@@ -11,4 +11,10 @@ public class Livre extends Document{
 
 	protected String ISBN;
 	
+	
+	public String getISBN() {
+		return ISBN;
+		
+	}
+	
 }

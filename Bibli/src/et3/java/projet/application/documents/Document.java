@@ -14,6 +14,8 @@ public class Document {
 	protected String prenomAuteur;
 	protected boolean estDisponible;
 	
+	protected Serie serie;
+	protected int numSerie = 0;
 	public Document(String eAN, String titre, String editeur, String date, String nomAuteur, String prenomAuteur) {
 		EAN = eAN;
 		this.titre = titre;
@@ -22,7 +24,19 @@ public class Document {
 		this.nomAuteur = nomAuteur;
 		this.prenomAuteur = prenomAuteur;
 	}
-	protected int numSerie = 0;
-	protected Serie serie;
+	@Override
+	public String toString() {
+		return "Document [nNotice=" + nNotice + ", EAN=" + EAN + ", titre=" + titre + ", editeur=" + editeur + ", date="
+				+ date + ", nomAuteur=" + nomAuteur + ", prenomAuteur=" + prenomAuteur + ", estDisponible="
+				+ estDisponible + ", numSerie=" + numSerie + ", serie=" + serie + "]";
+	}
+	
+	public Serie getSerie() {
+		return serie;
+	}
+	
+	public String getEAN() {
+		return EAN;
+	}
 	
 }

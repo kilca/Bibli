@@ -1,22 +1,26 @@
 package et3.java.projet.application;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import et3.java.projet.application.documents.*;
+import et3.java.projet.application.exceptions.DocumentExistException;
 import et3.java.projet.data.FileReader;
 
 public class Systeme {
 
-	public static List<Bibliotheque> bibliotheques;
+	public static List<Bibliotheque> bibliotheques = new ArrayList<Bibliotheque>();
 	
-	public List<Document> documents;
+	public static List<Document> documents = new ArrayList<Document>();
 	
 	//hashmap avec ISBN
-	public static HashMap<String, Document> docsISBN;
+	public static HashMap<String, Livre> docsISBN = new HashMap<String,Livre>();
 	//hashmap avec EAN
-	public static HashMap<String, Livre> docsEAN;
+	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
+	
+	public static HashMap<String, Serie> series;
 	
 	public static void chargerBiblio(String dir) {
 		
@@ -45,12 +49,33 @@ public class Systeme {
 		
 	}
 	
-	public static boolean ajouterDocument(Document d) {
+	public static void ajouterDocument(Document d, boolean isLivre) {
+		
+		if (docsEAN.containsKey(d.getEAN())) 
+			//throw new DocumentExistException("le document existe deja");
+		
+		
+		documents.add(d);
+		docsEAN.put(d.getEAN(), d);	
+		if (isLivre) {
+			Livre L = (Livre) d;
+			docsISBN.put(L.getISBN(), L);
+		}
+		
+	}
+	
+	
+	public static boolean ajouterUtilisateur(Utilisateur u, Bibliotheque b) {
 		return false;		
 		
 	}
-	public static boolean ajouterUtilisateur(Utilisateur u) {
-		return false;		
+	
+	public static void consulterDocuments() {
+		
+		for(Document d : documents) {
+			
+			System.out.println(d);
+		}
 		
 	}
 	
