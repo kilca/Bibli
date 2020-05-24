@@ -11,4 +11,11 @@ public class Utilisateur {
 	
 	public List<Document> documentsEmprunte;
 	
+	public Utilisateur(int quota) {
+		
+		if (quota <= MAX_EMPRUNT)
+			this.quota = quota;
+		
+	}
+	
 }

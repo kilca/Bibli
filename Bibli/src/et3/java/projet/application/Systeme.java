@@ -42,8 +42,23 @@ public class Systeme {
 			}
 	}
 		
+	public static Bibliotheque getBibliothequeByName(String n) {
+		for(Bibliotheque b : bibliotheques) {
+			if (b.name.equals(n)) {
+				return b;
+			}
+			
+		}
+		return null;
+		
+	}
 	
 	public static boolean ajouterBibliotheque(Bibliotheque b) {
+		
+		if (getBibliothequeByName(b.name) != null) {
+			//throw error
+			return false;
+		}
 		
 		return bibliotheques.add(b);
 		
@@ -51,7 +66,7 @@ public class Systeme {
 	
 	public static void ajouterDocument(Document d, boolean isLivre) {
 		
-		if (docsEAN.containsKey(d.getEAN())) 
+		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
 		
 		
