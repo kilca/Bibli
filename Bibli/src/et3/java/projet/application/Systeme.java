@@ -2,6 +2,8 @@ package et3.java.projet.application;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,80 @@ public class Systeme {
 	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
 	
 	public static HashMap<String, Serie> series;
+	
+	
+	//-----------Affichage------------------
+	
+	public static void afficherDocs() {
+		
+		for(Document d : documents) {
+			System.out.println(d);
+			
+		}
+		
+	}
+	
+	public static boolean afficherSerie(String titre) {
+		Serie s =series.get(titre);
+		if (s == null) {
+			System.err.println("serie not found");
+			return false;
+		}
+		List<Document> docs = s.getDocuments();
+		
+		 Collections.sort(docs, new Comparator<Document>() 
+         {
+
+			@Override
+			public int compare(Document d1, Document d2) {
+
+				return d1.dateToInt() - d2.dateToInt();
+				//A verifier
+			}
+
+         }    
+         );
+		 
+		for(Document d : docs) {
+			System.out.println(d);
+			
+		}
+		
+		return true;
+		
+	}
+	
+	
+	public static boolean afficherDocAuteur(String prenom, String nom) {
+
+		System.out.println("not implemented (depend si utilise hashmap ou non");
+		
+		return true;
+	}
+	
+	public static boolean afficherDocISBN(String ISBN) {
+
+		Document d = docsISBN.get(ISBN);
+		if (d == null) {
+			System.err.println("document not found");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static boolean afficherDocEAN(String EAN) {
+
+		Document d = docsEAN.get(EAN);
+		if (d == null) {
+			System.err.println("document not found");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	//----------Fin Affichage ----------------
 	
 	public static void chargerBiblio(String dir) {
 		
@@ -56,7 +132,7 @@ public class Systeme {
 	public static boolean ajouterBibliotheque(Bibliotheque b) {
 		
 		if (getBibliothequeByName(b.name) != null) {
-			//throw error
+			//throw error bibliotheque already exist with name
 			return false;
 		}
 		
@@ -68,7 +144,6 @@ public class Systeme {
 		
 		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
-		
 		
 		documents.add(d);
 		docsEAN.put(d.getEAN(), d);	
@@ -85,14 +160,6 @@ public class Systeme {
 		
 	}
 	
-	public static void consulterDocuments() {
-		
-		for(Document d : documents) {
-			
-			System.out.println(d);
-		}
-		
-	}
 	
 	
 	

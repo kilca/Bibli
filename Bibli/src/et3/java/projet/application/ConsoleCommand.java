@@ -97,25 +97,94 @@ public class ConsoleCommand {
 		
 	}
 	
-	private static void showValues(String[] args, Bibliotheque b) {
+	private static void showValues(String[] args) {
+		
+		Bibliotheque b = null;
+		if (args.length > 2 && args[0].equals("-b")) {
+			b = Systeme.getBibliothequeByName(args[1]);
+			args = Arrays.copyOfRange(args, 2, args.length);
+		}
+		
+		if (args.length <1) {
+			System.err.println("missing argument");
+		}
 		
 		switch (args[0]) {
 			case "alldocs":
+				
+				if (b != null) {
+					b.afficherDocs();
+				}else {
+					Systeme.afficherDocs();
+				}
 				//Todo 4
 				break;
 			case "docsbyserie":
+				
+				if (args.length < 2) {
+					System.err.println("missing value");
+					break;
+				}
+				
+				if (b == null)
+					Systeme.afficherSerie(args[1]);
+				
 				//Todo 5
 				break;
 			case "docsbyauthor":
+				
+				String authorName = null;
+				String authorPrenom = null;
+				args = Arrays.copyOfRange(args, 1, args.length);
+				
+				if (args.length >= 2 && args[0].equals("-p")) {
+					authorPrenom = args[1];
+					args = Arrays.copyOfRange(args, 2, args.length);
+				}
+				if (args.length >= 2 && args[1].equals("-n")) {
+					authorName = args[1];
+					args = Arrays.copyOfRange(args, 2, args.length);
+				}
+				
+				if (authorName == null && authorPrenom == null){
+					
+					System.err.println("you must give the author name or prenom");
+					break;
+				}
+				
+				if (b == null)
+					Systeme.afficherDocAuteur(authorPrenom, authorName);
+				
 				//Todo 6
 				break;
 			case "docbyisbn":
+				
+				if (args.length != 2) {
+					System.err.println("wrong argument number");
+					break;
+				}
+				
+				if (b == null)
+					Systeme.afficherDocEAN(args[1]);
+				
 				//Todo 7
 				break;
 			case "docbyean":
+				if (args.length != 2) {
+					System.err.println("wrong argument number");
+					break;
+				}
+				
+				if (b == null)
+					Systeme.afficherDocEAN(args[1]);
+				
 				//Todo 8
 				break;
 			case "nbdoc":
+				if (args.length != 3) {
+					System.err.println("wrong argument number");
+					break;
+				}
 				//Todo 9
 				break;
 			default:
@@ -152,23 +221,39 @@ public class ConsoleCommand {
 				}
 				break;
 			case "show":
-				if (inputs.length < 3) {
+				if (inputs.length < 2) {
 					System.err.println("error, missing arguments");
 					break;
 				}
-				Bibliotheque bibliShown = Systeme.getBibliothequeByName(inputs[1]);
 				
-				if (bibliShown == null && !inputs[1].equals("systeme")) {
-					System.err.println("error bibli not found");
-				}
-				showValues(Arrays.copyOfRange(inputs, 2, inputs.length),bibliShown);
+				showValues(Arrays.copyOfRange(inputs, 1, inputs.length));
 
 				
 				break;
 			case "help":
-				System.out.println("add user bibli quota");
-				System.out.println("add bibli nom");
-				System.out.println("add doc bibli type ean title publisher date authorName authorSurname isbn(fac)");
+				if (inputs.length ==1) {
+					System.out.println("type 'help add' or 'help show' for specific command");
+					System.out.println("cmd [facultative] (value)");
+					break;
+				}
+				switch(inputs[1]) {
+					case "add":
+						System.out.println("add user (bibli) (quota)");
+						System.out.println("add (bibli) (nom)");
+						System.out.println("add doc (bibli) (type) (ean) (title) (publisher) (date) (authorName) (authorSurname) [(isbn)]");
+						break;
+					case "show":
+						System.out.println("show [-b (bibli)] alldocs");
+						System.out.println("show [-b (bibli)] docsbyserie");
+						System.out.println("show [-b (bibli)] docsbyauthor [-p prenom] [-n nom]");
+						System.out.println("show [-b (bibli)] docbyisbn (ISBN)");
+						System.out.println("show [-b (bibli)] docbyean (EAN)");
+						System.out.println("show [-b (bibli)] nbdoc (beginDate) (endDate)");
+						break;
+					default:
+					
+				
+				}
 				break;
 			default:
 				System.err.print("error command not found, type help");

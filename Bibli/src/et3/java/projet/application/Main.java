@@ -11,7 +11,11 @@ public class Main
 	 * 
 	 * On met ici tout ce qu'on aura a revoir/faire
 	 * 
-	 * (Attention dans les commandes il peut y avoir un probleme si un objet a le meme nom que la cmd)
+	 * Tester 
+	 * 
+	 * Factoriser le code (les [-truc opt]) et autre
+	 * 
+	 * Est ce qu'il serait préférable de mettre pleins de hashmap pour faciliter les questions 5 à 8?
 	 * 
 	 * Ajouter ISBN
 	 * Ajouter les exception dans la console
@@ -23,12 +27,11 @@ public class Main
 	public static void main(String[] args) 
 	{
 		try {
-			ConsoleCommand.readConsole();
 			if(args.length > 0)
 			{
 				Systeme.chargerBiblio(args[0]);
 				
-				Systeme.consulterDocuments();
+				ConsoleCommand.readConsole();
 				
 			}
 			else

@@ -9,5 +9,11 @@ public class Serie {
 	private String titre;
 	
 	private List<Document> documents;
+
+	
+	public List<Document> getDocuments(){
+		return documents;
+		
+	}
 	
 }

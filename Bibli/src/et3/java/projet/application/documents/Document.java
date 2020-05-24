@@ -39,4 +39,16 @@ public class Document {
 		return EAN;
 	}
 	
+	public int dateToInt() {
+		String intValue = date.replaceAll("[^0-9]", "");
+		int retour = -1;
+		try {
+			retour = Integer.parseInt(intValue);
+			
+		}finally {
+			
+		}
+		return retour;
+	}
+	
 }
