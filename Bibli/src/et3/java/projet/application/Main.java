@@ -9,7 +9,9 @@ public class Main
 	
 	/*TODO
 	 * 
-	 * On met ici tout ce qu'on aura a revoir/faire
+	 * ***On met ici tout ce qu'on aura a revoir/faire***
+	 * 
+	 * Il faut etre certain que les types de stockage soient les bon
 	 * 
 	 * Tester 
 	 * 
@@ -29,6 +31,12 @@ public class Main
 		try {
 			if(args.length > 0)
 			{
+				Systeme.ajouterBibliotheque(new Bibliotheque("AimeCesaire"));
+				Systeme.ajouterBibliotheque(new Bibliotheque("EdmondRostand"));
+				Systeme.ajouterBibliotheque(new Bibliotheque("JeanPierreMelville"));
+				Systeme.ajouterBibliotheque(new Bibliotheque("OscarWilde"));
+				Systeme.ajouterBibliotheque(new Bibliotheque("SaintSimon"));
+				
 				Systeme.chargerBiblio(args[0]);
 				
 				ConsoleCommand.readConsole();

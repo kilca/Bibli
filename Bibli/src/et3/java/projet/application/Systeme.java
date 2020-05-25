@@ -96,6 +96,15 @@ public class Systeme {
 		return true;
 	}
 	
+	public static boolean afficherDocTwoDate(int d1, int d2) {
+
+		//int retour = (int) documents.stream().filter(document->document.dateToInt() > d2 && document->document.dateToInt() < d1).count();
+		
+
+		
+		return true;
+	}
+	
 	//----------Fin Affichage ----------------
 	
 	public static void chargerBiblio(String dir) {
@@ -140,7 +149,7 @@ public class Systeme {
 		
 	}
 	
-	public static void ajouterDocument(Document d, boolean isLivre) {
+	public static Document ajouterDocument(Document d, boolean isLivre) {
 		
 		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
@@ -151,6 +160,8 @@ public class Systeme {
 			Livre L = (Livre) d;
 			docsISBN.put(L.getISBN(), L);
 		}
+		
+		return d;
 		
 	}
 	
