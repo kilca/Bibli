@@ -49,6 +49,14 @@ public class Bibliotheque {
 		}
 	}
 	
+	public void RetirerUniteDocument(Document d) { // permet de retirer un document dans nbDocuments
+		if(this.documentsHeberge.contains(d) && this.nbDocuments.get(d) > 0) {
+			Integer t = this.nbDocuments.get(d) - 1;
+			this.nbDocuments.replace(d, t);
+		}
+		
+	}
+	
 	//-----------Affichage------------------
 	
 	public void afficherDocs() {
