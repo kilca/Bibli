@@ -8,10 +8,10 @@ import et3.java.projet.application.documents.*;
 
 public class ConsoleCommand {
 
-	//bibliotheque quota
+	//bibliotheque quota username
 	private static void addUser(String[] args) {
 		
-		if (args.length != 2) {
+		if (args.length != 3) {
 			System.err.println("wrong argument number");
 			return;
 		}
@@ -35,7 +35,7 @@ public class ConsoleCommand {
 		
 		
 		
-		Systeme.ajouterUtilisateur(new Utilisateur(quota), b);
+		Systeme.ajouterUtilisateur(new Utilisateur(quota,args[2]), b);
 		
 	}
 	
@@ -228,6 +228,30 @@ public class ConsoleCommand {
 				
 				showValues(Arrays.copyOfRange(inputs, 1, inputs.length));
 
+				
+				break;
+			//borrow (username)
+			//(titre du doc)
+			case "borrow":
+				//--Peut etre mettre arg en plus genre -e EAN ---
+				
+				Scanner scan = new Scanner(System.in);
+				
+				String docTitle = scan.nextLine();
+				
+				System.out.println("todo");
+				
+				break;
+				
+			//remit (username)
+			//(titre du doc)
+			case "remit":
+				//--Peut etre mettre arg en plus genre -e EAN ---
+				
+				Scanner scan2 = new Scanner(System.in);
+				
+				String docTitle2 = scan2.nextLine();
+				System.out.println("todo");
 				
 				break;
 			case "help":

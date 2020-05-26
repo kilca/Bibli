@@ -11,11 +11,17 @@ public class Utilisateur {
 	
 	public List<Document> documentsEmprunte;
 	
-	public Utilisateur(int quota) {
+	private String nom;//obligatoire pour la remise
+	
+	public Utilisateur(int quota, String nom) {
 		
 		if (quota <= MAX_EMPRUNT)
 			this.quota = quota;
 		
+	}
+	
+	public String getNom() {
+		return nom;
 	}
 	
 }

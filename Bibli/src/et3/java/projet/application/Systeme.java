@@ -155,7 +155,10 @@ public class Systeme {
 			//throw new DocumentExistException("le document existe deja");
 		
 		documents.add(d);
-		docsEAN.put(d.getEAN(), d);	
+		
+		if (d.getEAN() != null && !d.getEAN().equals(""))
+			docsEAN.put(d.getEAN(), d);	
+		
 		if (isLivre) {
 			Livre L = (Livre) d;
 			livreISBN.put(L.getISBN(), L);
@@ -167,7 +170,22 @@ public class Systeme {
 	
 	
 	public static boolean ajouterUtilisateur(Utilisateur u, Bibliotheque b) {
+		//todo (attention verifie qu'il n'y en ai pas qui aient le meme nom)
 		return false;		
+		
+	}
+	
+	//sera a utiliser pour l'emprunt et la remise
+	public static Utilisateur getUtilisateur(String nom) {
+		
+		for(Bibliotheque b : bibliotheques) {
+			
+			for(Utilisateur u : b.utilisateurs) {
+				if (u.getNom().equals(nom))
+					return u;
+			}
+		}
+		return null;
 		
 	}
 	
