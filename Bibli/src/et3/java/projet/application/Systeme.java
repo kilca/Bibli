@@ -156,18 +156,14 @@ public class Systeme {
 		
 		documents.add(d);
 		
-<<<<<<< HEAD
 		if (d.getEAN() != null && !d.getEAN().equals(""))
 			docsEAN.put(d.getEAN(), d);	
-		
+			
 		if (d.isLivre()) {
-=======
-		docsEAN.put(d.getEAN(), d);	
-		if (isLivre) {
->>>>>>> branch 'master' of https://github.com/super-cokil/Bibli.git
 			Livre L = (Livre) d;
-			if (L.getISBN() != null && !L.getISBN().equals(""))
+			if (L.getISBN() != null && !L.getISBN().equals("")) {
 				livreISBN.put(L.getISBN(), L);
+			}
 		}
 		
 		return d;

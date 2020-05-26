@@ -24,12 +24,10 @@ public class Utilisateur {
 		bibli.utilisateurs.add(this);
 	}
 	
-<<<<<<< HEAD
 	public String getNom() {
 		return nom;
 	}
 	
-=======
 	public void emprunter(Document doc) {
 		if(inscription != null && inscription.documentsHeberge.contains(doc)) {
 			if(inscription.nbDocuments.get(doc) > 0 && quota > 0) {
@@ -47,5 +45,4 @@ public class Utilisateur {
 			quota++;
 		}
 	}
->>>>>>> branch 'master' of https://github.com/super-cokil/Bibli.git
 }
