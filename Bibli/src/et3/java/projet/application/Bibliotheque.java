@@ -17,6 +17,10 @@ public class Bibliotheque {
 	
 	public HashMap<Document, Integer> nbDocuments;
 	
+	public HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
+	//hashmap avec EAN
+	public HashMap<String, Document> docsEAN = new HashMap<String,Document>();
+	
 	public Bibliotheque(String n) {
 		this.name = n;
 		
@@ -28,6 +32,15 @@ public class Bibliotheque {
 	public void ajouterDocument(Document d, int nbDocument) {
 		if (!documentsHeberge.contains(d)) {
 			documentsHeberge.add(d);
+			if(d.getEAN() != null) {
+				docsEAN.put(d.getEAN(), d);
+			}
+			if(d instanceof Livre) {
+				if(((Livre)d).getISBN() != "") {
+					livreISBN.put(((Livre) d).getISBN(), (Livre) d);
+				}
+			}
+			
 		}
 
 		if (!nbDocuments.containsKey(d)) {
@@ -35,6 +48,14 @@ public class Bibliotheque {
 		}else {
 			nbDocuments.put(d, nbDocuments.get(d) + nbDocument);
 		}
+	}
+	
+	public void RetirerUniteDocument(Document d) { // permet de retirer un document dans nbDocuments
+		if(this.documentsHeberge.contains(d) && this.nbDocuments.get(d) > 0) {
+			Integer t = this.nbDocuments.get(d) - 1;
+			this.nbDocuments.replace(d, t);
+		}
+		
 	}
 	
 	//-----------Affichage------------------
