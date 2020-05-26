@@ -191,6 +191,14 @@ public class Systeme {
 		
 	}
 	
+	public static Document getDocumentByTitle(String title) {
+		for(Document d : documents) {
+			if (d.getTitle().equals(title))
+				return d;
+		}
+		return null;
+	}
+	
 	
 	
 	

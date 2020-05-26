@@ -97,6 +97,7 @@ public class ConsoleCommand {
 		
 	}
 	
+	
 	private static void showValues(String[] args) {
 		
 		Bibliotheque b = null;
@@ -230,28 +231,56 @@ public class ConsoleCommand {
 
 				
 				break;
-			//borrow (username)
-			//(titre du doc)
+			//borrow (username) -e 0404147857
+			//borrow (username) Rien (demande l'entree du titre)
 			case "borrow":
-				//--Peut etre mettre arg en plus genre -e EAN ---
+
+				if (inputs.length != 4 && inputs.length != 2) {
+					System.err.println("must give right argument number");
+					break;
+				}
+				Utilisateur u = Systeme.getUtilisateur(inputs[1]);
+				Document d = null;
+				if (inputs.length == 4 && inputs[2].equals("-e")) {
+					d = Systeme.docsEAN.get(inputs[3]);
+				}else {
+					System.out.println("Please Enter the title of the document you want to borrow");
+					Scanner scan = new Scanner(System.in);
+					
+					String docTitle = scan.nextLine();
+					
+					scan.close();
+					
+					d = Systeme.getDocumentByTitle(docTitle);
+				}
 				
-				Scanner scan = new Scanner(System.in);
-				
-				String docTitle = scan.nextLine();
-				
-				System.out.println("todo");
+				//Appeler la fonction d'emprunt
+				System.out.println("todo (appeler la fonction d'emprunt)");
 				
 				break;
 				
-			//remit (username)
-			//(titre du doc)
 			case "remit":
-				//--Peut etre mettre arg en plus genre -e EAN ---
 				
-				Scanner scan2 = new Scanner(System.in);
-				
-				String docTitle2 = scan2.nextLine();
-				System.out.println("todo");
+				if (inputs.length != 4 && inputs.length != 2) {
+					System.err.println("must give right argument number");
+					break;
+				}
+				Utilisateur u2 = Systeme.getUtilisateur(inputs[1]);
+				Document d2 = null;
+				if (inputs.length == 4 && inputs[2].equals("-e")) {
+					d = Systeme.docsEAN.get(inputs[3]);
+				}else {
+					System.out.println("Please Enter the title of the document you want to borrow");
+					Scanner scan = new Scanner(System.in);
+					
+					String docTitle = scan.nextLine();
+					
+					scan.close();
+					
+					d = Systeme.getDocumentByTitle(docTitle);
+				}
+				//Appeler la fonction d'emprunt
+				System.out.println("todo (appeler la fonction de remise)");
 				
 				break;
 			case "help":
@@ -289,7 +318,6 @@ public class ConsoleCommand {
 	}
 	
 	public static void readConsole() {
-		
 		while(true) {
 			Scanner scan = new Scanner(System.in);
 			
