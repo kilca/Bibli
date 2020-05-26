@@ -149,7 +149,7 @@ public class Systeme {
 		
 	}
 	
-	public static Document ajouterDocument(Document d, boolean isLivre) {
+	public static Document ajouterDocument(Document d) {
 		
 		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
@@ -159,9 +159,10 @@ public class Systeme {
 		if (d.getEAN() != null && !d.getEAN().equals(""))
 			docsEAN.put(d.getEAN(), d);	
 		
-		if (isLivre) {
+		if (d.isLivre()) {
 			Livre L = (Livre) d;
-			livreISBN.put(L.getISBN(), L);
+			if (L.getISBN() != null && !L.getISBN().equals(""))
+				livreISBN.put(L.getISBN(), L);
 		}
 		
 		return d;

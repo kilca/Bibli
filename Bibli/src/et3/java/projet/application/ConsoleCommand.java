@@ -59,34 +59,34 @@ public class ConsoleCommand {
 		}
 		switch(args[0]) {
 			case "Autre":
-				Systeme.ajouterDocument(new Autre(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Autre(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "BD":
-				Systeme.ajouterDocument(new BD(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new BD(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Carte":
-				Systeme.ajouterDocument(new Carte(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Carte(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "CD":
-				Systeme.ajouterDocument(new CD(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new CD(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "JeuDeSociete":
-				Systeme.ajouterDocument(new JeuDeSociete(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new JeuDeSociete(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "JeuVideo":
-				Systeme.ajouterDocument(new JeuVideo(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new JeuVideo(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Livre":
-				Systeme.ajouterDocument(new Livre(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Livre(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Partition":
-				Systeme.ajouterDocument(new Partition(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Partition(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Revue":
-				Systeme.ajouterDocument(new Revue(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Revue(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Vinyle":
-				Systeme.ajouterDocument(new Vinyle(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Vinyle(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			default:
 				System.err.println("invalid type of Document");
