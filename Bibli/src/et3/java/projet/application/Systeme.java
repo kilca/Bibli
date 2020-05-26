@@ -155,6 +155,7 @@ public class Systeme {
 			//throw new DocumentExistException("le document existe deja");
 		
 		documents.add(d);
+		
 		docsEAN.put(d.getEAN(), d);	
 		if (isLivre) {
 			Livre L = (Livre) d;

@@ -16,6 +16,10 @@ public class Bibliotheque {
 	
 	public HashMap<Document, Integer> nbDocuments;
 	
+	public static HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
+	//hashmap avec EAN
+	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
+	
 	public Bibliotheque(String n) {
 		this.name = n;
 		
@@ -27,6 +31,15 @@ public class Bibliotheque {
 	public void ajouterDocument(Document d, int nbDocument) {
 		if (!documentsHeberge.contains(d)) {
 			documentsHeberge.add(d);
+			if(d.getEAN() != null) {
+				docsEAN.put(d.getEAN(), d);
+			}
+			if(d instanceof Livre) {
+				if(((Livre)d).getISBN() != "") {
+					livreISBN.put(((Livre) d).getISBN(), (Livre) d);
+				}
+			}
+			
 		}
 
 		if (!nbDocuments.containsKey(d)) {
