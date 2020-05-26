@@ -191,14 +191,18 @@ public class FileReader
             		
             		
             		Document d;
-            		if (type.substring(0, 5).equals("Livre")) {
-            			
-            			d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname),true);
-            			
-            		}else {
             			switch (type) {
             			
             			//------------Livre-------
+            			case "Livre jeunesse":
+            			case "Livre pour adulte":
+            			case "Livre de Fonds specialises":
+            			case "Livre en langue etrangere":
+            			case "Livre de section jeunesse > 12 ans":
+            			case "Livre en gros caracteres":
+            			case "Livre sonore pour adulte":
+            			case "Livre sonore jeunesse":
+            			case "Livres et periodiques DAiSY":
 	              		  case "Usuels":
 	              		  case "Methode de langue":
 	              			  if(!isbn.equals("")) {
@@ -207,7 +211,7 @@ public class FileReader
 	              				  d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname),false);
 	              			  }
 		              			  break; 
-	              			  
+	              		
 	              		  case "Bande dessinee pour jeunesse":
 	              		  case "Bande dessinee jeunesse":
 	              		  case "Bande dessinee pour adulte":
@@ -276,7 +280,7 @@ public class FileReader
             			
             			}
             			
-            		}
+            		
             		Bibliotheque AimeCesaire = Systeme.getBibliothequeByName("AimeCesaire");
     				Bibliotheque EdmondRostand = Systeme.getBibliothequeByName("EdmondRostand");
     				Bibliotheque JeanPierreMelville = Systeme.getBibliothequeByName("JeanPierreMelville");

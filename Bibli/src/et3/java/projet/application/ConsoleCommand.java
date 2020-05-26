@@ -239,7 +239,7 @@ public class ConsoleCommand {
 				switch(inputs[1]) {
 					case "add":
 						System.out.println("add user (bibli) (quota)");
-						System.out.println("add (bibli) (nom)");
+						System.out.println("add bibli (nom)");
 						System.out.println("add doc (bibli) (type) (ean) (title) (publisher) (date) (authorName) (authorSurname) [(isbn)]");
 						break;
 					case "show":
