@@ -213,16 +213,28 @@ public class FileReader
 	              		  case "Bande dessinee pour adulte":
 	              		  case "Bande dessinee jeunesse >12 ans":
 	              		  case "BD adulte non reservable":
-	              			d=Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname),true);
+	              			if(!isbn.equals("")) {
+		              			d = Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
+	              			  }else {
+	              				  d = Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  }
 	              			  break;
 	              			  
 	              		  case "Partition":
 	              		  case "Methode musicale":
-		              		d=Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname),true);
-		              		  break;
+	              			if(!isbn.equals("")) {
+		              			d = Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
+	              			  }else {
+	              				  d = Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  }
+	              			  break;
 	              			  
 	              		  case "Carte ou plan":
-	              			  d=Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname),true);
+	              			if(!isbn.equals("")) {
+		              			d = Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
+	              			  }else {
+	              				  d = Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  }
 	              			  break;
 	              			  
 	              			  //-----------------Pas livre----------
