@@ -201,7 +201,11 @@ public class FileReader
             			//------------Livre-------
 	              		  case "Usuels":
 	              		  case "Methode de langue":
-		              			d =Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname),true);
+	              			  if(!isbn.equals("")) {
+		              			d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
+	              			  }else {
+	              				  d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  }
 		              			  break; 
 	              			  
 	              		  case "Bande dessinee pour jeunesse":

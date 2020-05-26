@@ -18,7 +18,7 @@ public class Systeme {
 	public static List<Document> documents = new ArrayList<Document>();
 	
 	//hashmap avec ISBN
-	public static HashMap<String, Livre> docsISBN = new HashMap<String,Livre>();
+	public static HashMap<String, Livre> LivreISBN = new HashMap<String,Livre>();
 	//hashmap avec EAN
 	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
 	
