@@ -18,7 +18,7 @@ public class Systeme {
 	public static List<Document> documents = new ArrayList<Document>();
 	
 	//hashmap avec ISBN
-	public static HashMap<String, Livre> LivreISBN = new HashMap<String,Livre>();
+	public static HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
 	//hashmap avec EAN
 	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
 	
@@ -76,7 +76,7 @@ public class Systeme {
 	
 	public static boolean afficherDocISBN(String ISBN) {
 
-		Document d = docsISBN.get(ISBN);
+		Document d = livreISBN.get(ISBN);
 		if (d == null) {
 			System.err.println("document not found");
 			return false;
@@ -158,7 +158,7 @@ public class Systeme {
 		docsEAN.put(d.getEAN(), d);	
 		if (isLivre) {
 			Livre L = (Livre) d;
-			docsISBN.put(L.getISBN(), L);
+			livreISBN.put(L.getISBN(), L);
 		}
 		
 		return d;
