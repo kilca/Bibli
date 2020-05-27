@@ -17,10 +17,6 @@ public class Utilisateur {
 			this.quota = quota;
 		
 	}
-	public void inscription(Bibliotheque bibli) {
-		this.inscription = bibli;
-		bibli.utilisateurs.add(this);
-	}
 	
 	public void emprunter(Document doc) {
 		if(inscription != null && inscription.documentsHeberge.contains(doc)) {
@@ -38,5 +34,9 @@ public class Utilisateur {
 			documentsEmprunte.remove(doc);
 			quota++;
 		}
+	}
+
+	public void setInscription(Bibliotheque inscription) {
+		this.inscription = inscription;
 	}
 }

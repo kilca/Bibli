@@ -67,6 +67,9 @@ public class Systeme {
 	}
 	
 	
+	public static boolean afficherBiblioSerie(Bibliotheque bibli, String titre) {
+		return false;
+	}
 	public static boolean afficherDocAuteur(String prenom, String nom) {
 
 		System.out.println("not implemented (depend si utilise hashmap ou non");
@@ -168,11 +171,9 @@ public class Systeme {
 	
 	
 	public static boolean ajouterUtilisateur(Utilisateur u, Bibliotheque b) {
-		return false;		
-		
+		if(u != null && b != null) {
+			u.setInscription(b);
+			return b.utilisateurs.add(u);
+		} else return false;
 	}
-	
-	
-	
-	
 }

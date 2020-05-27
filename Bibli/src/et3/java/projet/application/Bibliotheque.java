@@ -16,9 +16,9 @@ public class Bibliotheque {
 	
 	public HashMap<Document, Integer> nbDocuments;
 	
-	public static HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
+	public HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
 	//hashmap avec EAN
-	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
+	public HashMap<String, Document> docsEAN = new HashMap<String,Document>();
 	
 	public Bibliotheque(String n) {
 		this.name = n;
