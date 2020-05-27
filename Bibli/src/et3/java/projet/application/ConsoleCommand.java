@@ -404,7 +404,7 @@ public class ConsoleCommand {
 					break;
 				case "exchange":
 					if(inputs.length != 6 && inputs.length != 4) {
-						System.err.println("erreur, ne respecte pas le format d'echange");
+						System.err.println("must give right argument number");
 						break;
 					}
 					Bibliotheque b1 = Systeme.getBibliothequeByName(inputs[2]);
@@ -424,16 +424,16 @@ public class ConsoleCommand {
 					}
 					if(b1 != null && b2 != null && d3 != null) {
 						if(b1.donnerDocumentBibli(d3, b2)){
-							System.out.println("echange effectuee");
+							System.out.println("exchange performed");
 						}
-					}else System.err.println("mauvais arguments");
+					}else System.err.println("error, wrong argument");
 					break;
 				default :
-					System.err.println("erreur, transmit doit etre suivi de borrow, remit ou exchange");
+					System.err.println("error, transmit must be followed by borrow, remit or exchange");
 				}
 			case "help":
 				if (inputs.length ==1) {
-					System.out.println("type 'help add' or 'help show' or help ' for specific command");
+					System.out.println("type 'help add','help show' or 'help transmit' specific command");
 					System.out.println("cmd [facultative] (value)");
 					break;
 				}
@@ -454,6 +454,10 @@ public class ConsoleCommand {
 						System.out.println("show [-b (bibli)] docbyean (EAN)");
 						System.out.println("show [-b (bibli)] nbdoc (beginDate) (endDate)");
 						break;
+					case "transmit":
+						System.out.println("transmit borrow [-e (ean)]");
+						System.out.println("transmit remit [-e (ean)]");
+						System.out.println("transmit exchange (Bibliotheque transmitting) (Bibliotheque receiving) [-e (ean)]");
 					default:
 					
 				
