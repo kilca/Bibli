@@ -66,6 +66,17 @@ public class Bibliotheque {
 		
 	}
 	
+	public boolean donnerDocumentBibli(Document d, Bibliotheque b) {
+		if(!documentsHeberge.contains(d)) {
+			System.err.println("la bibliotheque ne possede pas ce document");
+			return false;
+		}
+		else {
+			RetirerUniteDocument(d);
+			b.ajouterDocument(d, 1);
+			return true;
+		}
+	}
 	//-----------Affichage------------------
 	
 	public void afficherDocs() {
@@ -139,6 +150,26 @@ public class Bibliotheque {
 		}
 		System.out.println(d);
 		return true;
+	}
+	
+	public boolean NbDocuments(String sBegin, String sEnd) {
+		int begin = Integer.parseInt(sBegin);
+		int end = Integer.parseInt(sEnd);
+		boolean exist = false;
+		if(begin > end) {
+			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
+			return false;
+		}
+		for(Document doc : documentsHeberge) {
+			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document n'est inclu dans cette interval de temps");
+		}
+		return exist;
 	}
 	//----------Fin Affichage ----------------
 	

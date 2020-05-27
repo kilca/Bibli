@@ -64,7 +64,8 @@ public class Document {
 	
 	public int dateToInt() {
 		String intValue = date.replaceAll("[^0-9]", "");
-		int retour = -1;
+		int retour = -100000;
+		if(intValue.equals("")) return retour;
 		try {
 			retour = Integer.parseInt(intValue);
 			

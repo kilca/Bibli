@@ -120,6 +120,9 @@ public class Systeme {
 				exist = true;
 			}
 		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+		}
 		return exist;
 	}
 	
@@ -130,6 +133,9 @@ public class Systeme {
 				System.out.println(doc);
 				exist = true;
 			}
+		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
 		}
 		return exist;
 	}
@@ -165,6 +171,25 @@ public class Systeme {
 		return true;
 	}
 	
+	public static boolean NbDocuments(String sBegin, String sEnd) {
+		int begin = Integer.parseInt(sBegin);
+		int end = Integer.parseInt(sEnd);
+		boolean exist = false;
+		if(begin > end) {
+			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
+			return false;
+		}
+		for(Document doc : documents) {
+			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document n'est inclu dans cette interval de temps");
+		}
+		return exist;
+	}
 	//----------Fin Affichage ----------------
 	
 	public static void chargerBiblio(String dir) {
