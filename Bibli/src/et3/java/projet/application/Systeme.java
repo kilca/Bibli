@@ -172,6 +172,10 @@ public class Systeme {
 	
 	
 	public static boolean ajouterUtilisateur(Utilisateur u, Bibliotheque b) {
+		if(u != null && b != null) {
+			u.setInscription(b);
+			return b.utilisateurs.add(u);
+		}
 		return false;		
 		
 		//todo (attention verifie qu'il n'y en ai pas qui aient le meme nom)
