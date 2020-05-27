@@ -50,11 +50,18 @@ public class Bibliotheque {
 		}
 	}
 	
-	public void RetirerUniteDocument(Document d) { // permet de retirer un document dans nbDocuments
-		if(this.documentsHeberge.contains(d) && this.nbDocuments.get(d) > 0) {
-			Integer t = this.nbDocuments.get(d) - 1;
-			this.nbDocuments.replace(d, t);
+	public boolean RetirerUniteDocument(Document d) { // permet de retirer un document dans nbDocuments
+		if(this.documentsHeberge.contains(d) && nbDocuments.get(d) > 0) {
+				Integer t = nbDocuments.get(d) - 1;
+				if(t < 1) {
+					nbDocuments.remove(d);
+					documentsHeberge.remove(d);
+				}
+				else{ nbDocuments.replace(d, t);
+				return true;
+			}
 		}
+		return false;
 		
 	}
 	

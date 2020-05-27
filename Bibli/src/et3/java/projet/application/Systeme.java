@@ -66,6 +66,37 @@ public class Systeme {
 		
 	}
 	
+	public static boolean afficherBibliSerie(Bibliotheque b, String titre) {
+		Serie s =series.get(titre);
+		if (s == null) {
+			System.err.println("serie not found");
+			return false;
+		}
+		List<Document> docs = s.getDocuments();
+		Collections.sort(docs, new Comparator<Document>() 
+        {
+
+			@Override
+			public int compare(Document d1, Document d2) {
+
+				return d1.dateToInt() - d2.dateToInt();
+				//A verifier
+			}
+
+        }    
+        );
+		boolean isPresent = false;
+		for(Document d : docs) {
+			if(b.documentsHeberge.contains(d)) {
+				System.out.println(d);
+				isPresent = true;
+			}
+		}
+		if(!isPresent) {
+			System.out.println("la bibliotheque ne contient aucun document de cette serie");
+		}
+		return isPresent;
+	}
 	
 	public static boolean afficherDocAuteur(String prenom, String nom) {
 
