@@ -38,7 +38,7 @@ public class Main
 				Systeme.ajouterBibliotheque(new Bibliotheque("OscarWilde"));
 				Systeme.ajouterBibliotheque(new Bibliotheque("SaintSimon"));
 				
-				//on accepte les document sans EAN depuis le csv mais pas depuis la console
+				//on accepte les document sans EAN depuis le csv mais pas depuis la console.
 				Systeme.chargerBiblio(args[0]);
 				
 				
