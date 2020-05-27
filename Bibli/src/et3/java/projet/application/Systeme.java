@@ -93,7 +93,7 @@ public class Systeme {
 			}
 		}
 		if(!isPresent) {
-			System.out.println("la bibliotheque ne contient aucun document de cette serie");
+			System.err.println("la bibliotheque ne contient aucun document de cette serie");
 		}
 		return isPresent;
 	}
@@ -138,10 +138,10 @@ public class Systeme {
 
 		Document d = livreISBN.get(ISBN);
 		if (d == null) {
-			System.err.println("document not found");
+			System.out.println("Ce document n'est pas dans le systeme");
 			return false;
 		}
-		
+		System.out.println(d);
 		return true;
 	}
 	
@@ -149,7 +149,7 @@ public class Systeme {
 
 		Document d = docsEAN.get(EAN);
 		if (d == null) {
-			System.err.println("document not found");
+			System.out.println("Ce document n'est pas dans le systeme");
 			return false;
 		}
 		System.out.println(d);

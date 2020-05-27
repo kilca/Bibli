@@ -16,7 +16,7 @@ public class Document {
 	
 	protected Serie serie;
 	protected int numSerie = 0;
-	public Document(String eAN, String titre, String editeur, String date, String nomAuteur, String prenomAuteur) {
+	public Document(String eAN, String titre, String editeur, String date, String prenomAuteur, String nomAuteur) {
 		EAN = eAN;
 		this.titre = titre;
 		this.editeur = editeur;

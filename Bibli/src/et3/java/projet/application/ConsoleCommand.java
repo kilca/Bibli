@@ -172,28 +172,46 @@ public class ConsoleCommand {
 				break;
 			case "docsbyauthor":
 				
-				String authorName = null;
-				String authorPrenom = null;
+				String authorPrenom = null; // prenom
+				String authorNom = null;//nom
 				args = Arrays.copyOfRange(args, 1, args.length);
 				
 				if (args.length >= 2 && args[0].equals("-p")) {
 					authorPrenom = args[1];
 					args = Arrays.copyOfRange(args, 2, args.length);
 				}
-				if (args.length >= 2 && args[1].equals("-n")) {
-					authorName = args[1];
+				if (args.length >= 2 && args[0].equals("-n")) {
+					authorNom = args[1];
 					args = Arrays.copyOfRange(args, 2, args.length);
 				}
 				
-				if (authorName == null && authorPrenom == null){
+				if (authorNom == null && authorPrenom == null){
 					
 					System.err.println("you must give the author name or prenom");
 					break;
 				}
 				
-				if (b == null)
-					Systeme.afficherDocAuteur(authorPrenom, authorName);
+				if (b == null) {
+					if (authorNom != null && authorPrenom != null)
+						Systeme.afficherDocAuteur(authorPrenom, authorNom);
+					else if (authorNom != null) {//dans le cas où que name
+						Systeme.afficherDocAuteuravecNom(authorNom);
+					}else {//dans le cas où que prenom
+						Systeme.afficherDocAuteuravecPrenom(authorPrenom);
+					}
+					
 				
+				}else {
+					if (authorNom != null && authorPrenom != null)
+						b.afficherDocAuteur(authorPrenom, authorNom);
+					else if (authorNom != null) {//dans le cas où que name
+						b.afficherDocAuteuravecNom(authorNom);
+					}else {//dans le cas où que prenom
+						b.afficherDocAuteuravecPrenom(authorPrenom);
+					}
+					
+					
+				}
 				//Todo 6
 				break;
 			case "docbyisbn":
@@ -202,10 +220,11 @@ public class ConsoleCommand {
 					System.err.println("wrong argument number");
 					break;
 				}
-				
+				//System.out.println("on test pour l'ISBN:"+args[1]);
 				if (b == null)
-					Systeme.afficherDocEAN(args[1]);
-				
+					Systeme.afficherDocISBN(args[1]);
+				else
+					b.afficherDocISBN(args[1]);
 				//Todo 7
 				break;
 			case "docbyean":
@@ -216,7 +235,8 @@ public class ConsoleCommand {
 				
 				if (b == null)
 					Systeme.afficherDocEAN(args[1]);
-				
+				else
+					b.afficherDocEAN(args[1]);
 				//Todo 8
 				break;
 			case "nbdoc":
@@ -238,6 +258,10 @@ public class ConsoleCommand {
 	private static void checkInput(String[] inputs) {
 		
 		switch (inputs[0]) {
+			case "clear":
+				for (int i = 0; i < 50; ++i) System.out.println();
+			    break;
+		    
 			case "add":
 				if (inputs.length < 2) {
 					System.err.println("error, missing arguments");
