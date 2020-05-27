@@ -15,6 +15,8 @@ public class Utilisateur {
 	
 	public Utilisateur(int quota, String nom) {
 		
+		this.nom=nom;
+		
 		if (quota <= MAX_EMPRUNT)
 			this.quota = quota;
 		

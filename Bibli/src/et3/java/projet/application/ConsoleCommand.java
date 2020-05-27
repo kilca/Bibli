@@ -51,42 +51,62 @@ public class ConsoleCommand {
 	}
 	
 	//type ean, title, publisher, date, authorName, authorSurname, ISBN(fac)
+	//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
 	private static void addDoc(String[] args) {
 		
-		if (args.length != 7 && args.length != 8 ) {
+		if (args.length != 8 && args.length != 9 ) {
 			System.err.println("wrong argument number");
 			return;
 		}
-		switch(args[0]) {
+		
+		Bibliotheque b = Systeme.getBibliothequeByName(args[0]);
+		
+		if (b == null) {
+			System.err.println("bibli :"+args[0]+"does not exist");
+			return;
+		}
+		
+		System.out.println("Please Enter the title of the document you want to create");
+		Scanner scan = new Scanner(System.in);
+		
+		String docTitle = scan.nextLine();
+		
+		scan.close();
+		
+		System.out.println("Please Enter the title of the document you want to create");
+		scan = new Scanner(System.in);
+		String serieTitle = scan.nextLine();
+		
+		switch(args[1]) {
 			case "Autre":
-				Systeme.ajouterDocument(new Autre(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Autre(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "BD":
-				Systeme.ajouterDocument(new BD(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new BD(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "Carte":
-				Systeme.ajouterDocument(new Carte(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Carte(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "CD":
-				Systeme.ajouterDocument(new CD(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new CD(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "JeuDeSociete":
-				Systeme.ajouterDocument(new JeuDeSociete(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new JeuDeSociete(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "JeuVideo":
-				Systeme.ajouterDocument(new JeuVideo(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new JeuVideo(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "Livre":
-				Systeme.ajouterDocument(new Livre(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Livre(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "Partition":
-				Systeme.ajouterDocument(new Partition(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Partition(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "Revue":
-				Systeme.ajouterDocument(new Revue(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Revue(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			case "Vinyle":
-				Systeme.ajouterDocument(new Vinyle(args[1], args[2], args[3], args[4], args[5], args[6]));
+				Systeme.ajouterDocument(new Vinyle(args[2], args[3], args[4], args[5], args[6], args[7]));
 				break;
 			default:
 				System.err.println("invalid type of Document");
@@ -111,6 +131,24 @@ public class ConsoleCommand {
 		}
 		
 		switch (args[0]) {
+		
+		//Pour debuggage
+		case "allbibli":
+			for(Bibliotheque bi : Systeme.bibliotheques) {
+				System.out.println(bi.name+","+bi.documentsHeberge.size());
+			}
+			break;
+		case "alluser":
+			for(Bibliotheque bi : Systeme.bibliotheques) {
+				System.out.println(bi.name+":");
+				for(Utilisateur u : bi.utilisateurs) {
+					System.out.println("	"+u.getNom());
+				}
+			}
+			break;
+		
+		
+		//Commande de l'exercice
 			case "alldocs":
 				
 				if (b != null) {
@@ -291,11 +329,14 @@ public class ConsoleCommand {
 				}
 				switch(inputs[1]) {
 					case "add":
-						System.out.println("add user (bibli) (quota)");
+						System.out.println("add user (bibli) (quota) (nom)");
 						System.out.println("add bibli (nom)");
 						System.out.println("add doc (bibli) (type) (ean) (title) (publisher) (date) (authorName) (authorSurname) [(isbn)]");
 						break;
 					case "show":
+						System.out.println("show allbibli");
+						System.out.println("show alluser");
+						System.out.println("");
 						System.out.println("show [-b (bibli)] alldocs");
 						System.out.println("show [-b (bibli)] docsbyserie");
 						System.out.println("show [-b (bibli)] docsbyauthor [-p prenom] [-n nom]");

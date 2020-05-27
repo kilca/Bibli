@@ -22,7 +22,7 @@ public class Systeme {
 	//hashmap avec EAN
 	public static HashMap<String, Document> docsEAN = new HashMap<String,Document>();
 	
-	public static HashMap<String, Serie> series;
+	public static HashMap<String, Serie> series = new HashMap<String,Serie>();
 	
 	
 	//-----------Affichage------------------
@@ -92,7 +92,7 @@ public class Systeme {
 			System.err.println("document not found");
 			return false;
 		}
-		
+		System.out.println(d);
 		return true;
 	}
 	
@@ -138,6 +138,17 @@ public class Systeme {
 		
 	}
 	
+	public static void ajouterSerie(Serie serie) {
+		String serieName = serie.getTitre();
+		if (serieName == null) {
+			System.err.println("error serie title null");
+			return;
+		}
+		if (!series.containsKey(serieName))
+			series.put(serieName, serie);
+		
+	}
+	
 	public static boolean ajouterBibliotheque(Bibliotheque b) {
 		
 		if (getBibliothequeByName(b.name) != null) {
@@ -176,6 +187,7 @@ public class Systeme {
 			u.setInscription(b);
 			return b.utilisateurs.add(u);
 		}
+		System.err.println("cannot add utilisateur");
 		return false;		
 		
 		//todo (attention verifie qu'il n'y en ai pas qui aient le meme nom)

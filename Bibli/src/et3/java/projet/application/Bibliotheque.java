@@ -26,6 +26,7 @@ public class Bibliotheque {
 		
 		documentsHeberge = new ArrayList<Document>();
 		nbDocuments = new HashMap<Document,Integer>();
+		utilisateurs = new ArrayList<Utilisateur>();
 		
 	}
 	

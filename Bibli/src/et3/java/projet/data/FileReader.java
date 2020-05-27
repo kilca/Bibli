@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 import et3.java.projet.application.Bibliotheque;
+import et3.java.projet.application.Serie;
 import et3.java.projet.application.Systeme;
 import et3.java.projet.application.documents.*;
 
@@ -266,7 +267,19 @@ public class FileReader
             			
             			}
             			
-            		
+            		if (seriesTitle != null && !seriesTitle.equals("")) {
+            			Serie serie = new Serie(seriesTitle);
+            			
+            			int numSerie=0;
+            			if (seriesNumber != null)
+            				numSerie = seriesNumber.intValue();
+            			
+            			d.setSerie(serie,numSerie);
+            			serie.ajouterDocument(d);
+            			Systeme.ajouterSerie(serie);
+            		}
+            			
+            			
             		Bibliotheque AimeCesaire = Systeme.getBibliothequeByName("AimeCesaire");
     				Bibliotheque EdmondRostand = Systeme.getBibliothequeByName("EdmondRostand");
     				Bibliotheque JeanPierreMelville = Systeme.getBibliothequeByName("JeanPierreMelville");
