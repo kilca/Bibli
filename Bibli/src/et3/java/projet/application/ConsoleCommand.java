@@ -298,56 +298,85 @@ public class ConsoleCommand {
 				break;
 			//borrow (username) -e 0404147857
 			//borrow (username) Rien (demande l'entree du titre)
-			case "borrow":
-
-				if (inputs.length != 4 && inputs.length != 2) {
-					System.err.println("must give right argument number");
+			case"transmit":
+				switch (inputs[1]) {
+				case "borrow":
+					if (inputs.length != 4 && inputs.length != 2) {
+						System.err.println("must give right argument number");
+						break;
+					}
+					Utilisateur u = Systeme.getUtilisateur(inputs[1]);
+					Document d = null;
+					if (inputs.length == 4 && inputs[2].equals("-e")) {
+						d = Systeme.docsEAN.get(inputs[3]);
+					}else {
+						System.out.println("Please Enter the title of the document you want to borrow");
+						Scanner scan = new Scanner(System.in);
+						String docTitle = scan.nextLine();
+					
+						scan.close();
+					
+						d = Systeme.getDocumentByTitle(docTitle);
+					}
+				
+					//Appeler la fonction d'emprunt
+					System.out.println("todo (appeler la fonction d'emprunt)");
+				
 					break;
-				}
-				Utilisateur u = Systeme.getUtilisateur(inputs[1]);
-				Document d = null;
-				if (inputs.length == 4 && inputs[2].equals("-e")) {
-					d = Systeme.docsEAN.get(inputs[3]);
-				}else {
-					System.out.println("Please Enter the title of the document you want to borrow");
-					Scanner scan = new Scanner(System.in);
+				
+				case "remit":
+				
+					if (inputs.length != 4 && inputs.length != 2) {
+						System.err.println("must give right argument number");
+						break;
+					}
+					Utilisateur u2 = Systeme.getUtilisateur(inputs[1]);
+					Document d2 = null;
+					if (inputs.length == 4 && inputs[2].equals("-e")) {
+						d2 = Systeme.docsEAN.get(inputs[3]);
+					}else {
+						System.out.println("Please Enter the title of the document you want to borrow");
+						Scanner scan = new Scanner(System.in);
 					
-					String docTitle = scan.nextLine();
+						String docTitle = scan.nextLine();
 					
-					scan.close();
+						scan.close();
 					
-					d = Systeme.getDocumentByTitle(docTitle);
-				}
+						d2 = Systeme.getDocumentByTitle(docTitle);
+					}
+					//Appeler la fonction d'emprunt
+					System.out.println("todo (appeler la fonction de remise)");
 				
-				//Appeler la fonction d'emprunt
-				System.out.println("todo (appeler la fonction d'emprunt)");
-				
-				break;
-				
-			case "remit":
-				
-				if (inputs.length != 4 && inputs.length != 2) {
-					System.err.println("must give right argument number");
 					break;
+				case "exchange":
+					if(inputs.length != 6 && inputs.length != 4) {
+						System.err.println("erreur, ne respecte pas le format d'echange");
+						break;
+					}
+					Bibliotheque b1 = Systeme.getBibliothequeByName(inputs[2]);
+					Bibliotheque b2 = Systeme.getBibliothequeByName(inputs[3]);
+					Document d3 = null;
+					if (inputs.length == 6 && inputs[4].equals("-e")) {
+						d3 = Systeme.docsEAN.get(inputs[5]);
+					}else {
+						System.out.println("Please Enter the title of the document you want to borrow");
+						Scanner scan = new Scanner(System.in);
+					
+						String docTitle = scan.nextLine();
+					
+						scan.close();
+					
+						d3 = Systeme.getDocumentByTitle(docTitle);
+					}
+					if(b1 != null && b2 != null && d3 != null) {
+						if(b1.donnerDocumentBibli(d3, b2)){
+							System.out.println("echange effectuee");
+						}
+					}else System.err.println("mauvais arguments");
+					break;
+				default :
+					System.err.println("erreur, transmit doit etre suivi de borrow, remit ou exchange");
 				}
-				Utilisateur u2 = Systeme.getUtilisateur(inputs[1]);
-				Document d2 = null;
-				if (inputs.length == 4 && inputs[2].equals("-e")) {
-					d = Systeme.docsEAN.get(inputs[3]);
-				}else {
-					System.out.println("Please Enter the title of the document you want to borrow");
-					Scanner scan = new Scanner(System.in);
-					
-					String docTitle = scan.nextLine();
-					
-					scan.close();
-					
-					d = Systeme.getDocumentByTitle(docTitle);
-				}
-				//Appeler la fonction d'emprunt
-				System.out.println("todo (appeler la fonction de remise)");
-				
-				break;
 			case "help":
 				if (inputs.length ==1) {
 					System.out.println("type 'help add' or 'help show' for specific command");

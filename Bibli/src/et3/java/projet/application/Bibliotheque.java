@@ -66,6 +66,17 @@ public class Bibliotheque {
 		
 	}
 	
+	public boolean donnerDocumentBibli(Document d, Bibliotheque b) {
+		if(!documentsHeberge.contains(d)) {
+			System.err.println("la bibliotheque ne possede pas ce document");
+			return false;
+		}
+		else {
+			RetirerUniteDocument(d);
+			b.ajouterDocument(d, 1);
+			return true;
+		}
+	}
 	//-----------Affichage------------------
 	
 	public void afficherDocs() {
