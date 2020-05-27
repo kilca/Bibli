@@ -154,9 +154,21 @@ public class Bibliotheque {
 	}
 	
 	public boolean NbDocuments(String sBegin, String sEnd) {
+		
 		int begin = Integer.parseInt(sBegin);
 		int end = Integer.parseInt(sEnd);
-		int nb = 0;
+		
+		int nbAutre = 0;
+		int nbBD = 0;
+		int nbCarte = 0;
+		int nbCD = 0;
+		int nbJeuDeSociete = 0;
+		int nbJeuVideo = 0;
+		int nbLivre = 0;
+		int nbPartition =0;
+		int nbRevue = 0;
+		int nbVinyle = 0;
+		
 		boolean exist = false;
 		if(begin > end) {
 			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
@@ -164,13 +176,47 @@ public class Bibliotheque {
 		}
 		for(Document doc : documentsHeberge) {
 			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
-				nb++;
-				exist = true;
+				
+				//marcherais aussi d'utiliser un enum dans les classes mais reste plus opti que class.getSimpleName()
+				if (!exist)
+					exist = true;
+				
+				if (doc instanceof Autre)
+					nbAutre++;
+				else if (doc instanceof BD)
+					nbBD++;
+				else if (doc instanceof Carte)
+					nbCarte++;
+				else if (doc instanceof CD)
+					nbCD++;
+				else if (doc instanceof JeuDeSociete)
+					nbJeuDeSociete++;
+				else if (doc instanceof JeuVideo)
+					nbJeuVideo++;
+				else if (doc instanceof Partition)
+					nbPartition++;
+				else if (doc instanceof Revue)
+					nbRevue++;
+				else if (doc instanceof Vinyle)
+					nbVinyle++;
+				else if (doc instanceof Livre)//a mettre en dernier car reconnait ses enfants
+					nbLivre++;
+				
 			}
 		}
-		System.out.println(nb + " documents");
 		if(!exist) {
 			System.out.println("aucun document n'est inclu dans cette interval de temps");
+		}else {
+			System.out.println("Autre : "+nbAutre);
+			System.out.println("BD : "+nbBD);
+			System.out.println("Carte : "+nbCarte);
+			System.out.println("CD : "+nbCD);
+			System.out.println("JeuDeSociete : "+nbJeuDeSociete);
+			System.out.println("JeuVideo : "+nbJeuVideo);
+			System.out.println("Livre : "+nbLivre);
+			System.out.println("Partition : "+nbPartition);
+			System.out.println("Revue : "+nbRevue);
+			System.out.println("Vinyle : "+nbVinyle);
 		}
 		return exist;
 	}
