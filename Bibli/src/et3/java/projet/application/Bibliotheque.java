@@ -33,11 +33,11 @@ public class Bibliotheque {
 	public void ajouterDocument(Document d, int nbDocument) {
 		if (!documentsHeberge.contains(d)) {
 			documentsHeberge.add(d);
-			if(d.getEAN() != null) {
+			if(d.getEAN() != null && d.getEAN() != "") {
 				docsEAN.put(d.getEAN(), d);
 			}
 			if(d instanceof Livre) {
-				if(((Livre)d).getISBN() != "") {
+				if(((Livre)d).getISBN() != null && ((Livre)d).getISBN() != "") {
 					livreISBN.put(((Livre) d).getISBN(), (Livre) d);
 				}
 			}
