@@ -155,6 +155,7 @@ public class Bibliotheque {
 	public boolean NbDocuments(String sBegin, String sEnd) {
 		int begin = Integer.parseInt(sBegin);
 		int end = Integer.parseInt(sEnd);
+		int nb = 0;
 		boolean exist = false;
 		if(begin > end) {
 			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
@@ -162,10 +163,11 @@ public class Bibliotheque {
 		}
 		for(Document doc : documentsHeberge) {
 			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
-				System.out.println(doc);
+				nb++;
 				exist = true;
 			}
 		}
+		System.out.println(nb + " documents");
 		if(!exist) {
 			System.out.println("aucun document n'est inclu dans cette interval de temps");
 		}
