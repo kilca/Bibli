@@ -11,6 +11,10 @@ public class Serie {
 	
 	private List<Document> documents;
 
+	@Override
+	public String toString() {
+		return titre+":"+documents.size();
+	}
 
 	public Serie(String titre) {
 		

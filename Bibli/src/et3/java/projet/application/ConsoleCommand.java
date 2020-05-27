@@ -216,13 +216,17 @@ public class ConsoleCommand {
 				break;
 			case "docsbyserie":
 				
-				if (args.length < 2) {
-					System.err.println("missing value");
-					break;
-				}
+				System.out.println("Veuillez entrer le titre de la serie ");
+				
+				Scanner scan = new Scanner(System.in);
+				String serieTitle = "";
+				if (scan.hasNextLine())
+					serieTitle = scan.nextLine();
 				
 				if (b == null)
-					Systeme.afficherSerie(args[1]);
+					Systeme.afficherSerie(serieTitle);
+				else
+					Systeme.afficherBibliSerie(b,serieTitle);
 				
 				//Todo 5
 				break;
@@ -422,8 +426,6 @@ public class ConsoleCommand {
 					
 						String docTitle = scan.nextLine();
 					
-						scan.close();
-					
 						d3 = Systeme.getDocumentByTitle(docTitle);
 					}
 					if(b1 != null && b2 != null && d3 != null) {
@@ -438,7 +440,7 @@ public class ConsoleCommand {
 			case "help":
 				if (inputs.length ==1) {
 					System.out.println("type 'help add','help show' or 'help transmit' specific command");
-					System.out.println("cmd [facultative] (value)");
+					System.out.println("cmd [facultative] (value) ...Full sentence");
 					break;
 				}
 				switch(inputs[1]) {
@@ -452,7 +454,7 @@ public class ConsoleCommand {
 						System.out.println("show alluser");
 						System.out.println("");
 						System.out.println("show [-b (bibli)] alldocs");
-						System.out.println("show [-b (bibli)] docsbyserie");
+						System.out.println("show [-b (bibli)] docsbyserie ... nomSerie");
 						System.out.println("show [-b (bibli)] docsbyauthor [-p prenom] [-n nom]");
 						System.out.println("show [-b (bibli)] docbyisbn (ISBN)");
 						System.out.println("show [-b (bibli)] docbyean (EAN)");

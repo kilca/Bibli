@@ -272,14 +272,16 @@ public class FileReader
             		}
             			
             		if (seriesTitle != null && !seriesTitle.equals("")) {
-            			Serie serie = new Serie(seriesTitle);
-            			
+            			Serie serie = Systeme.getSerieByName(seriesTitle);
+            			if (serie == null) {
+            				serie = new Serie(seriesTitle);
+                			Systeme.ajouterSerie(serie);
+            			}
             			int numSerie=0;
             			if (seriesNumber != null)
             				numSerie = seriesNumber.intValue();
             			
             			d.setSerie(serie,numSerie);
-            			Systeme.ajouterSerie(serie);
             			
             		}
             			

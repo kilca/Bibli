@@ -58,9 +58,10 @@ public class Bibliotheque {
 					nbDocuments.remove(d);
 					documentsHeberge.remove(d);
 				}
-				else{ nbDocuments.replace(d, t);
+				else{ 
+					nbDocuments.replace(d, t);
+				}
 				return true;
-			}
 		}
 		return false;
 		
