@@ -244,7 +244,10 @@ public class ConsoleCommand {
 					System.err.println("wrong argument number");
 					break;
 				}
-				//Todo 9
+				if (b == null)
+					Systeme.NbDocuments(args[1], args[2]);
+				else
+					b.NbDocuments(args[1], args[2]);
 				break;
 			default:
 				System.err.println("invalid argument");

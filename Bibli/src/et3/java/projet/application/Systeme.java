@@ -171,7 +171,9 @@ public class Systeme {
 		return true;
 	}
 	
-	public static boolean NbDocuments(int begin, int end) {
+	public static boolean NbDocuments(String sBegin, String sEnd) {
+		int begin = Integer.parseInt(sBegin);
+		int end = Integer.parseInt(sEnd);
 		boolean exist = false;
 		if(begin > end) {
 			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
