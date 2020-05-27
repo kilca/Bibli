@@ -39,6 +39,12 @@ public class Document {
 		return EAN;
 	}
 	
+	public String getNomAuteur() {
+		return nomAuteur;
+	}
+	public String getPrenomAuteur() {
+		return prenomAuteur;
+	}
 	public boolean isLivre() {
 		return (this instanceof Livre);//Marche avec heritage
 	}
