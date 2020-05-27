@@ -11,6 +11,8 @@ public class Main
 	 * 
 	 * ***On met ici tout ce qu'on aura a revoir/faire***
 	 * 
+	 * https://hebdo.framapad.org/p/9gwe-y9phr6sm2n?lang=fr
+	 * 
 	 * Il faut etre certain que les types de stockage soient les bon
 	 * 
 	 * Tester 
