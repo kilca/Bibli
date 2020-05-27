@@ -300,6 +300,10 @@ public class ConsoleCommand {
 					System.err.println("wrong argument number");
 					break;
 				}
+				if (b == null)
+					Systeme.NbDocuments(args[1], args[2]);
+				else
+					b.NbDocuments(args[1], args[2]);
 				//Todo 9
 				break;
 			default:

@@ -171,7 +171,7 @@ public class Systeme {
 		return true;
 	}
 	
-	public boolean NbDocuments(String sBegin, String sEnd) {
+	public static boolean NbDocuments(String sBegin, String sEnd) {
 		int begin = Integer.parseInt(sBegin);
 		int end = Integer.parseInt(sEnd);
 		int nb = 0;
