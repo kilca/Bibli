@@ -16,6 +16,7 @@ public class Document {
 	
 	protected Serie serie;
 	protected int numSerie = 0;
+	
 	public Document(String eAN, String titre, String editeur, String date, String prenomAuteur, String nomAuteur) {
 		EAN = eAN;
 		this.titre = titre;
@@ -24,6 +25,7 @@ public class Document {
 		this.nomAuteur = nomAuteur;
 		this.prenomAuteur = prenomAuteur;
 	}
+	
 	@Override
 	public String toString() {
 		return "Document [nNotice=" + nNotice + ", EAN=" + EAN + ", titre=" + titre + ", editeur=" + editeur + ", date="
@@ -57,7 +59,7 @@ public class Document {
 		
 		this.serie = s;
 		this.numSerie = numSerie;
-		
+		s.ajouterDocument(this);
 	}
 	
 	public int dateToInt() {

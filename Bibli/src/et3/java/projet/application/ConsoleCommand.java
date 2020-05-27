@@ -1,6 +1,7 @@
 package et3.java.projet.application;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -54,7 +55,7 @@ public class ConsoleCommand {
 	//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
 	private static void addDoc(String[] args) {
 		
-		if (args.length != 8 && args.length != 9 ) {
+		if (args.length != 7 && args.length != 8 ) {
 			System.err.println("wrong argument number");
 			return;
 		}
@@ -69,49 +70,104 @@ public class ConsoleCommand {
 		System.out.println("Please Enter the title of the document you want to create");
 		Scanner scan = new Scanner(System.in);
 		
-		String docTitle = scan.nextLine();
+		String docTitle = "";
 		
-		scan.close();
+		if (scan.hasNextLine())
+			docTitle = scan.nextLine();
 		
-		System.out.println("Please Enter the title of the document you want to create");
-		scan = new Scanner(System.in);
-		String serieTitle = scan.nextLine();
 		
-		switch(args[1]) {
+		System.out.println("Veuillez entrer le titre de la serie (vide si non existe)");
+		//scan = new Scanner(System.in);
+		String serieTitle = "";
+		if (scan.hasNextLine())
+			serieTitle = scan.nextLine();
+		
+		int numSerie = 0;
+		
+		Serie serie = null;
+		if (!serieTitle.equals(""))
+			serie = Systeme.getSerieByName(serieTitle);
+		
+		if (serie != null) {
+			System.out.println("Veuillez entrer le numero de serie");
+			try {
+			numSerie = scan.nextInt();
+			}catch (InputMismatchException e) {
+				System.err.println("vous devez rentrer un nombre");
+				return;
+			}
+		}else if (!serieTitle.equals("")) {
+			System.err.println("Serie indique non exitente, creation annulee");
+			return;
+		}
+		
+		//docTitle
+		//serieTitle
+		//numSerie
+		//serie
+		
+		//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
+		String type = args[1];
+		String ean = args[2];
+		String publisher = args[3];
+		String date = args[4];
+		String authorPrenom = args[5];
+		String authorNom = args[6];
+		
+		String isbn="";
+		if (args.length == 8) {
+			isbn = args[7];
+		}
+		
+		Document d = null;
+		
+		switch(type) {
 			case "Autre":
-				Systeme.ajouterDocument(new Autre(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Autre(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			case "BD":
-				Systeme.ajouterDocument(new BD(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new BD(ean, docTitle, publisher, date, authorNom, authorPrenom,isbn));
 				break;
 			case "Carte":
-				Systeme.ajouterDocument(new Carte(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Carte(ean, docTitle, publisher, date, authorNom, authorPrenom,isbn));
 				break;
 			case "CD":
-				Systeme.ajouterDocument(new CD(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new CD(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			case "JeuDeSociete":
-				Systeme.ajouterDocument(new JeuDeSociete(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new JeuDeSociete(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			case "JeuVideo":
-				Systeme.ajouterDocument(new JeuVideo(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new JeuVideo(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			case "Livre":
-				Systeme.ajouterDocument(new Livre(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Livre(ean, docTitle, publisher, date, authorNom, authorPrenom,isbn));
 				break;
 			case "Partition":
-				Systeme.ajouterDocument(new Partition(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Partition(ean, docTitle, publisher, date, authorNom, authorPrenom,isbn));
 				break;
 			case "Revue":
-				Systeme.ajouterDocument(new Revue(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Revue(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			case "Vinyle":
-				Systeme.ajouterDocument(new Vinyle(args[2], args[3], args[4], args[5], args[6], args[7]));
+				d = Systeme.ajouterDocument(new Vinyle(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			default:
 				System.err.println("invalid type of Document");
 				break;
 		
+		}
+		
+		if (d!= null)
+		{
+			b.ajouterDocument(d, 1);
+			
+			if (serie != null) {
+				d.setSerie(serie, numSerie);
+			}
+			System.out.println("le document a bien ete cree");
+		}else {
+			System.err.println("il existe deja un document avec cet ISBN/EAN");
 		}
 		//On ajoute un user
 		
@@ -311,7 +367,7 @@ public class ConsoleCommand {
 					
 					String docTitle = scan.nextLine();
 					
-					scan.close();
+					//scan.close();
 					
 					d = Systeme.getDocumentByTitle(docTitle);
 				}
@@ -347,7 +403,7 @@ public class ConsoleCommand {
 				break;
 			case "help":
 				if (inputs.length ==1) {
-					System.out.println("type 'help add' or 'help show' for specific command");
+					System.out.println("type 'help add' or 'help show' or help ' for specific command");
 					System.out.println("cmd [facultative] (value)");
 					break;
 				}
@@ -355,7 +411,7 @@ public class ConsoleCommand {
 					case "add":
 						System.out.println("add user (bibli) (quota) (nom)");
 						System.out.println("add bibli (nom)");
-						System.out.println("add doc (bibli) (type) (ean) (title) (publisher) (date) (authorName) (authorSurname) [(isbn)]");
+						System.out.println("add doc (bibli) (type) (ean) (publisher) (date) (authorName) (authorSurname) [(isbn)] ... title/serie");
 						break;
 					case "show":
 						System.out.println("show allbibli");

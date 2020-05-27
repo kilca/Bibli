@@ -220,10 +220,31 @@ public class Systeme {
 		
 	}
 	
+	public static boolean documentHasISBNorEAN(Document d) {
+		boolean hasISBN = false;
+		
+		if (d.isLivre()) {
+			Livre L = (Livre) d;
+			if (L.getISBN() != null && !L.getISBN().equals(""))
+				hasISBN = livreISBN.containsKey(L.getISBN());
+		}
+		
+		
+		
+		boolean hasEAN = docsEAN.containsKey(d.getEAN());
+		
+		return (hasISBN || hasEAN);
+		
+	}
+	
 	public static Document ajouterDocument(Document d) {
 		
 		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
+		
+		if (documentHasISBNorEAN(d)) {
+			return null;
+		}
 		
 		documents.add(d);
 		
@@ -274,6 +295,10 @@ public class Systeme {
 				return d;
 		}
 		return null;
+	}
+	
+	public static Serie getSerieByName(String name) {
+		return series.get(name);
 	}
 	
 	

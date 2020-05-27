@@ -266,6 +266,10 @@ public class FileReader
 	              			  //System.out.println("type not found :"+type);
             			
             			}
+            		
+            		if (d == null) {//si le document a deja un ISBN ou EAN
+            			continue;
+            		}
             			
             		if (seriesTitle != null && !seriesTitle.equals("")) {
             			Serie serie = new Serie(seriesTitle);
@@ -275,8 +279,8 @@ public class FileReader
             				numSerie = seriesNumber.intValue();
             			
             			d.setSerie(serie,numSerie);
-            			serie.ajouterDocument(d);
             			Systeme.ajouterSerie(serie);
+            			
             		}
             			
             			
