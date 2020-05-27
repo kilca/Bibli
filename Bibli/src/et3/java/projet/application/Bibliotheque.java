@@ -11,6 +11,7 @@ public class Bibliotheque {
 	
 	public String name;
 	
+	//A Mettre en private ?
 	public List<Utilisateur> utilisateurs;
 	public List<Document> documentsHeberge;
 	

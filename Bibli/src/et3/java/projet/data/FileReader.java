@@ -205,11 +205,7 @@ public class FileReader
             			case "Livres et periodiques DAiSY":
 	              		  case "Usuels":
 	              		  case "Methode de langue":
-	              			  if(!isbn.equals("")) {
-		              			d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
-	              			  }else {
-	              				  d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname),false);
-	              			  }
+		              			d = Systeme.ajouterDocument(new Livre(ean.toString(), title, publisher, date, authorName, authorSurname,isbn));
 		              			  break; 
 	              		
 	              		  case "Bande dessinee pour jeunesse":
@@ -217,40 +213,30 @@ public class FileReader
 	              		  case "Bande dessinee pour adulte":
 	              		  case "Bande dessinee jeunesse >12 ans":
 	              		  case "BD adulte non reservable":
-	              			if(!isbn.equals("")) {
-		              			d = Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
-	              			  }else {
-	              				  d = Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname),false);
-	              			  }
+		              			d = Systeme.ajouterDocument(new BD(ean.toString(), title, publisher, date, authorName, authorSurname,isbn));
 	              			  break;
 	              			  
 	              		  case "Partition":
 	              		  case "Methode musicale":
-	              			if(!isbn.equals("")) {
-		              			d = Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
-	              			  }else {
-	              				  d = Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname),false);
-	              			  }
+	              			
+		              			d = Systeme.ajouterDocument(new Partition(ean.toString(), title, publisher, date, authorName, authorSurname,isbn));
 	              			  break;
 	              			  
 	              		  case "Carte ou plan":
-	              			if(!isbn.equals("")) {
-		              			d = Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname,isbn),true);
-	              			  }else {
-	              				  d = Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname),false);
-	              			  }
+		              			d = Systeme.ajouterDocument(new Carte(ean.toString(), title, publisher, date, authorName, authorSurname,isbn));
+	              			  
 	              			  break;
 	              			  
 	              			  //-----------------Pas livre----------
 	              			  
 	              		  case "Vinyle":
-	              			d=Systeme.ajouterDocument(new Vinyle(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			d=Systeme.ajouterDocument(new Vinyle(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  break;
 	              			  
 	              		  case "Revue de Fonds specialises":
 	              		  case "Revue jeunesse":
 	              		  case "Revue pour adulte":
-	              			d=Systeme.ajouterDocument(new Revue(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			d=Systeme.ajouterDocument(new Revue(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  break;
 	              			  
 	              		  case "Enregistrement musical pour la jeunesse":
@@ -260,22 +246,22 @@ public class FileReader
 	              		  case "DVD- video > 12 ans":
 	              		  case "DVD-video > 16 ans":
 	              		  case "DVD- video > 18 ans":
-	              			  d=Systeme.ajouterDocument(new CD(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  d=Systeme.ajouterDocument(new CD(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  break;
 	              			  
 	              		  case "Jeux Videos tous publics":
 	              		  case "Jeux videos > 18 ans":
-	              			  d=Systeme.ajouterDocument(new JeuVideo(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  d=Systeme.ajouterDocument(new JeuVideo(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  break;
 	              			  
 	              		  case "Jeux de societe":
-	              			  d=Systeme.ajouterDocument(new JeuDeSociete(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  d=Systeme.ajouterDocument(new JeuDeSociete(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  break;
 	              			  
 	              		  // --------------- Autre --------
 	              			  //Autre : Diapositive jeunesse, Non empruntable, Documents numeriques, nouveaute
 	              		  default:
-	              			  d=Systeme.ajouterDocument(new Autre(ean.toString(), title, publisher, date, authorName, authorSurname),false);
+	              			  d=Systeme.ajouterDocument(new Autre(ean.toString(), title, publisher, date, authorName, authorSurname));
 	              			  //System.out.println("type not found :"+type);
             			
             			}

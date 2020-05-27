@@ -67,9 +67,6 @@ public class Systeme {
 	}
 	
 	
-	public static boolean afficherBiblioSerie(Bibliotheque bibli, String titre) {
-		return false;
-	}
 	public static boolean afficherDocAuteur(String prenom, String nom) {
 
 		System.out.println("not implemented (depend si utilise hashmap ou non");
@@ -152,17 +149,21 @@ public class Systeme {
 		
 	}
 	
-	public static Document ajouterDocument(Document d, boolean isLivre) {
+	public static Document ajouterDocument(Document d) {
 		
 		//if (docsEAN.containsKey(d.getEAN())) 
 			//throw new DocumentExistException("le document existe deja");
 		
 		documents.add(d);
 		
-		docsEAN.put(d.getEAN(), d);	
-		if (isLivre) {
+		if (d.getEAN() != null && !d.getEAN().equals(""))
+			docsEAN.put(d.getEAN(), d);	
+			
+		if (d.isLivre()) {
 			Livre L = (Livre) d;
-			livreISBN.put(L.getISBN(), L);
+			if (L.getISBN() != null && !L.getISBN().equals("")) {
+				livreISBN.put(L.getISBN(), L);
+			}
 		}
 		
 		return d;
@@ -171,9 +172,35 @@ public class Systeme {
 	
 	
 	public static boolean ajouterUtilisateur(Utilisateur u, Bibliotheque b) {
-		if(u != null && b != null) {
-			u.setInscription(b);
-			return b.utilisateurs.add(u);
-		} else return false;
+		return false;		
+		
+		//todo (attention verifie qu'il n'y en ai pas qui aient le meme nom)
 	}
+
+	
+	//sera a utiliser pour l'emprunt et la remise
+	public static Utilisateur getUtilisateur(String nom) {
+		
+		for(Bibliotheque b : bibliotheques) {
+			
+			for(Utilisateur u : b.utilisateurs) {
+				if (u.getNom().equals(nom))
+					return u;
+			}
+		}
+		return null;
+		
+	}
+	
+	public static Document getDocumentByTitle(String title) {
+		for(Document d : documents) {
+			if (d.getTitle().equals(title))
+				return d;
+		}
+		return null;
+	}
+	
+	
+	
+	
 }

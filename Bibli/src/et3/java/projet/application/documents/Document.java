@@ -39,6 +39,14 @@ public class Document {
 		return EAN;
 	}
 	
+	public boolean isLivre() {
+		return (this instanceof Livre);//Marche avec heritage
+	}
+	
+	public String getTitle() {
+		return titre;
+	}
+	
 	public int dateToInt() {
 		String intValue = date.replaceAll("[^0-9]", "");
 		int retour = -1;

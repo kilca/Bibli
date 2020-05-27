@@ -8,10 +8,10 @@ import et3.java.projet.application.documents.*;
 
 public class ConsoleCommand {
 
-	//bibliotheque quota
+	//bibliotheque quota username
 	private static void addUser(String[] args) {
 		
-		if (args.length != 2) {
+		if (args.length != 3) {
 			System.err.println("wrong argument number");
 			return;
 		}
@@ -35,7 +35,7 @@ public class ConsoleCommand {
 		
 		
 		
-		Systeme.ajouterUtilisateur(new Utilisateur(quota), b);
+		Systeme.ajouterUtilisateur(new Utilisateur(quota,args[2]), b);
 		
 	}
 	
@@ -59,34 +59,34 @@ public class ConsoleCommand {
 		}
 		switch(args[0]) {
 			case "Autre":
-				Systeme.ajouterDocument(new Autre(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Autre(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "BD":
-				Systeme.ajouterDocument(new BD(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new BD(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Carte":
-				Systeme.ajouterDocument(new Carte(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Carte(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "CD":
-				Systeme.ajouterDocument(new CD(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new CD(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "JeuDeSociete":
-				Systeme.ajouterDocument(new JeuDeSociete(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new JeuDeSociete(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "JeuVideo":
-				Systeme.ajouterDocument(new JeuVideo(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new JeuVideo(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Livre":
-				Systeme.ajouterDocument(new Livre(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Livre(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Partition":
-				Systeme.ajouterDocument(new Partition(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Partition(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Revue":
-				Systeme.ajouterDocument(new Revue(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Revue(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			case "Vinyle":
-				Systeme.ajouterDocument(new Vinyle(args[1], args[2], args[3], args[4], args[5], args[6]),false);
+				Systeme.ajouterDocument(new Vinyle(args[1], args[2], args[3], args[4], args[5], args[6]));
 				break;
 			default:
 				System.err.println("invalid type of Document");
@@ -96,6 +96,7 @@ public class ConsoleCommand {
 		//On ajoute un user
 		
 	}
+	
 	
 	private static void showValues(String[] args) {
 		
@@ -230,6 +231,58 @@ public class ConsoleCommand {
 
 				
 				break;
+			//borrow (username) -e 0404147857
+			//borrow (username) Rien (demande l'entree du titre)
+			case "borrow":
+
+				if (inputs.length != 4 && inputs.length != 2) {
+					System.err.println("must give right argument number");
+					break;
+				}
+				Utilisateur u = Systeme.getUtilisateur(inputs[1]);
+				Document d = null;
+				if (inputs.length == 4 && inputs[2].equals("-e")) {
+					d = Systeme.docsEAN.get(inputs[3]);
+				}else {
+					System.out.println("Please Enter the title of the document you want to borrow");
+					Scanner scan = new Scanner(System.in);
+					
+					String docTitle = scan.nextLine();
+					
+					scan.close();
+					
+					d = Systeme.getDocumentByTitle(docTitle);
+				}
+				
+				//Appeler la fonction d'emprunt
+				System.out.println("todo (appeler la fonction d'emprunt)");
+				
+				break;
+				
+			case "remit":
+				
+				if (inputs.length != 4 && inputs.length != 2) {
+					System.err.println("must give right argument number");
+					break;
+				}
+				Utilisateur u2 = Systeme.getUtilisateur(inputs[1]);
+				Document d2 = null;
+				if (inputs.length == 4 && inputs[2].equals("-e")) {
+					d = Systeme.docsEAN.get(inputs[3]);
+				}else {
+					System.out.println("Please Enter the title of the document you want to borrow");
+					Scanner scan = new Scanner(System.in);
+					
+					String docTitle = scan.nextLine();
+					
+					scan.close();
+					
+					d = Systeme.getDocumentByTitle(docTitle);
+				}
+				//Appeler la fonction d'emprunt
+				System.out.println("todo (appeler la fonction de remise)");
+				
+				break;
 			case "help":
 				if (inputs.length ==1) {
 					System.out.println("type 'help add' or 'help show' for specific command");
@@ -265,7 +318,6 @@ public class ConsoleCommand {
 	}
 	
 	public static void readConsole() {
-		
 		while(true) {
 			Scanner scan = new Scanner(System.in);
 			
