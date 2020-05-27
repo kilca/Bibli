@@ -11,7 +11,7 @@ public class Bibliotheque {
 	
 	public String name;
 	
-	//A Mettre en private ?
+	//A Mettre en private ...non
 	public List<Utilisateur> utilisateurs;
 	public List<Document> documentsHeberge;
 	
@@ -74,6 +74,48 @@ public class Bibliotheque {
 			
 		}
 		
+	}
+	
+	public boolean afficherDocAuteur(String prenom, String nom) {
+		boolean exist = false;
+		for(Document doc : documentsHeberge) {
+			if(prenom.equals(doc.getPrenomAuteur()) && nom.equals(doc.getNomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+		}
+		return exist;
+	}
+	
+	public boolean afficherDocAuteuravecPrenom(String prenom) {
+		boolean exist = false;
+		for(Document doc : documentsHeberge) {
+			if(prenom.equals(doc.getPrenomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+		}
+		return exist;
+	}
+	
+	public boolean afficherDocAuteuravecNom(String nom) {
+		boolean exist = false;
+		for(Document doc : documentsHeberge) {
+			if(nom.equals(doc.getNomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+		}
+		return exist;
 	}
 	//----------Fin Affichage ----------------
 	

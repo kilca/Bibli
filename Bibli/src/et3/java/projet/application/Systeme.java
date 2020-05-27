@@ -99,10 +99,39 @@ public class Systeme {
 	}
 	
 	public static boolean afficherDocAuteur(String prenom, String nom) {
-
-		System.out.println("not implemented (depend si utilise hashmap ou non");
-		
-		return true;
+		boolean exist = false;
+		for(Document doc : documents) {
+			if(prenom.equals(doc.getPrenomAuteur()) && nom.equals(doc.getNomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		if(!exist) {
+			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+		}
+		return exist;
+	}
+	
+	public static boolean afficherDocAuteuravecPrenom(String prenom) {
+		boolean exist = false;
+		for(Document doc : documents) {
+			if(prenom.equals(doc.getPrenomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		return exist;
+	}
+	
+	public static boolean afficherDocAuteuravecNom(String nom) {
+		boolean exist = false;
+		for(Document doc : documents) {
+			if(nom.equals(doc.getNomAuteur())) {
+				System.out.println(doc);
+				exist = true;
+			}
+		}
+		return exist;
 	}
 	
 	public static boolean afficherDocISBN(String ISBN) {
