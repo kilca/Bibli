@@ -117,6 +117,28 @@ public class Bibliotheque {
 		}
 		return exist;
 	}
+	
+	public boolean afficherDocISBN(String ISBN) {
+
+		Document d = livreISBN.get(ISBN);
+		if (d == null) {
+			System.err.println("document not found");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean afficherDocEAN(String EAN) {
+
+		Document d = docsEAN.get(EAN);
+		if (d == null) {
+			System.err.println("document not found");
+			return false;
+		}
+		
+		return true;
+	}
 	//----------Fin Affichage ----------------
 	
 	
