@@ -60,9 +60,9 @@ public class Document {
 		
 	}
 	
-	public int dateToInt() {
+	public Integer dateToInt() {
 		String intValue = date.replaceAll("[^0-9]", "");
-		int retour = -1;
+		Integer retour = null;
 		try {
 			retour = Integer.parseInt(intValue);
 			
