@@ -337,6 +337,58 @@ public class ConsoleCommand {
 		
 	}
 	
+	/**
+	 * 
+	 * @param inputs	les arguments de la commande
+	 * @param transmitType		le type de transmission (borrow ou remit)
+	 */
+	private static void RemitOrBorrow(String[] inputs, String transmitType) throws UtilisateurNotFoundException, BibliothequeNotFoundException, WrongArgumentNumberException, DocumentNotFoundException {
+		
+		if (inputs.length != 6 && inputs.length != 4) {
+			throw new WrongArgumentNumberException("error, missing argument");
+		}
+		Bibliotheque b = Systeme.getBibliothequeByName(inputs[3]);
+		if(b == null) {
+			throw new BibliothequeNotFoundException("error : librairy not found",inputs[3]);
+		}
+		Utilisateur u = Systeme.getUtilisateur(inputs[2],b);
+		if(u == null) {
+			throw new UtilisateurNotFoundException("error : user not found",inputs[2]);
+		}
+		Document d = null;
+		if (inputs.length == 6 && inputs[4].equals("-e")) {
+			d = Systeme.docsEAN.get(inputs[5]);
+		}else {
+			System.out.println("Please Enter the title of the document you want to "+transmitType);
+			Scanner scan = new Scanner(System.in);
+		
+			String docTitle = scan.nextLine();
+		
+			scan.close();
+		
+			d = Systeme.getDocumentByTitle(docTitle);
+			if(d == null) {
+				throw new DocumentNotFoundException("error : document not found",docTitle);
+			}
+		}
+		
+		if (transmitType.equals("remit")) {
+			if(u.rendre(d)) {
+				System.out.println("remit done");
+			}else
+				System.err.println("error : remit impossible");
+		}else if (transmitType.equals("borrow")){
+			if(u.emprunter(d)) {
+				System.out.println("borrowing done");
+			} else
+				System.err.println("error : borrowing impossible");
+		}else {
+			//ne devrait pas arriver
+			System.err.println("Code error, transmitType not handled in RemitOrBorrow");
+		}
+	
+	}
+	
 	private static void checkInput(String[] inputs) throws BibliothequeNotFoundException, SerieNotFoundException, DocumentNotFoundException, UtilisateurNotFoundException, CommandException {
 		
 		switch (inputs[0]) {
@@ -368,85 +420,17 @@ public class ConsoleCommand {
 					throw new WrongArgumentNumberException("error, missing argument");
 				}
 				
-				showValues(Arrays.copyOfRange(inputs, 1, inputs.length));
-
-				
+				showValues(Arrays.copyOfRange(inputs, 1, inputs.length));				
 				break;
-			//borrow (username) -e 0404147857
-			//borrow (username) Rien (demande l'entree du titre)
+
 			case"transmit":
+				String transmitType = "";
 				switch (inputs[1]) {
 				case "borrow":
-					if (inputs.length != 4 && inputs.length != 6) {
-						throw new WrongArgumentNumberException("error, missing argument");
-					}
-					Bibliotheque b = Systeme.getBibliothequeByName(inputs[3]);
-					if(b == null) {
-						throw new BibliothequeNotFoundException("error : librairy not found",inputs[3]);
-
-					}
-					Utilisateur u = Systeme.getUtilisateur(inputs[2],b);
-					if(u == null) {
-						throw new UtilisateurNotFoundException("error : user not found",inputs[2]);
-					}
-					Document d = null;
-					if (inputs.length == 6 && inputs[4].equals("-e")) {
-						d = Systeme.docsEAN.get(inputs[5]);
-					}else {
-						System.out.println("Please Enter the title of the document you want to borrow");
-						Scanner scan = new Scanner(System.in);
-						String docTitle = scan.nextLine();
-					
-						scan.close();
-					
-					
-						d = Systeme.getDocumentByTitle(docTitle);
-						if(d == null) {
-							throw new DocumentNotFoundException("error : document not found",docTitle);
-						}
-						
-					}
-				
-					if(u.emprunter(d)) {
-						System.out.println("borrowing done");
-					} else
-						System.err.println("error : borrowing impossible");
+					RemitOrBorrow(inputs,"borrow");
 					break;
-				
 				case "remit":
-				
-					if (inputs.length != 6 && inputs.length != 4) {
-						throw new WrongArgumentNumberException("error, missing argument");
-					}
-					b = Systeme.getBibliothequeByName(inputs[3]);
-					if(b == null) {
-						throw new BibliothequeNotFoundException("error : librairy not found",inputs[3]);
-					}
-					u = Systeme.getUtilisateur(inputs[2],b);
-					if(u == null) {
-						throw new UtilisateurNotFoundException("error : user not found",inputs[2]);
-					}
-					d = null;
-					if (inputs.length == 6 && inputs[4].equals("-e")) {
-						d = Systeme.docsEAN.get(inputs[5]);
-					}else {
-						System.out.println("Please Enter the title of the document you want to remit");
-						Scanner scan = new Scanner(System.in);
-					
-						String docTitle = scan.nextLine();
-					
-						scan.close();
-					
-						d = Systeme.getDocumentByTitle(docTitle);
-						if(d == null) {
-							throw new DocumentNotFoundException("error : document not found",docTitle);
-						}
-					}
-					if(u.rendre(d)) {
-						System.out.println("remit done");
-					}else
-						System.err.println("error : remit impossible");
-				
+					RemitOrBorrow(inputs,"remit");
 					break;
 				case "exchange":
 					if(inputs.length != 6 && inputs.length != 4) {
@@ -526,15 +510,7 @@ public class ConsoleCommand {
 				checkInput(inputs);
 				
 				
-			} catch (BibliothequeNotFoundException e) {
-				System.err.println(e.getMessage());
-			} catch (SerieNotFoundException e) {
-				System.err.println(e.getMessage());
-			} catch (DocumentNotFoundException e) {
-				System.err.println(e.getMessage());
-			} catch (UtilisateurNotFoundException e) {
-				System.err.println(e.getMessage());
-			} catch (CommandException e) {
+			} catch (Exception e) {
 				System.err.println(e.getMessage());
 			}
 		}
