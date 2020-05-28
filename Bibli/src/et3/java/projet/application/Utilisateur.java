@@ -10,16 +10,22 @@ public class Utilisateur{
 	private Bibliotheque inscription;
 	private int quota = 5;
 	
-	public List<Document> documentsEmprunte = new ArrayList<Document>();
+	public List<Document> documentsEmprunte;
 	
 	private String nom;//obligatoire pour la remise
 	
 	public Utilisateur(int quota, String nom) {
+		
 		this.nom=nom;
 		
 		if (quota <= MAX_EMPRUNT)
 			this.quota = quota;
+			
+		documentsEmprunte = new ArrayList<Document>();
 		
+	}
+	public int getQuota() {
+		return quota;
 	}
 	
 	public String getNom() {

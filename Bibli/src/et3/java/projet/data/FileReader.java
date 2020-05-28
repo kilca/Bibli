@@ -13,9 +13,17 @@ import et3.java.projet.application.Bibliotheque;
 import et3.java.projet.application.Serie;
 import et3.java.projet.application.Systeme;
 import et3.java.projet.application.documents.*;
+import et3.java.projet.application.exceptions.SerieNotFoundException;
 
 public class FileReader 
 {
+	/**
+	 * recupere les donnee d'un fichier csv et les mets dans les donnees
+	 * ne les prend pas en compte si leur identifiant existent deja
+	 * Ici on recupere le csv transmit avec des bibliotheques existantes
+	 * 
+	 * @param csvFilePath		Le repertoire du fichier csv
+	 */
 	public static void getDataFromCSVFile(String csvFilePath)
 	{
         String line = "";
@@ -275,7 +283,11 @@ public class FileReader
             			Serie serie = Systeme.getSerieByName(seriesTitle);
             			if (serie == null) {
             				serie = new Serie(seriesTitle);
-                			Systeme.ajouterSerie(serie);
+                			try {
+								Systeme.ajouterSerie(serie);
+							} catch (SerieNotFoundException e) {
+								System.err.println(e.getMessage());
+							}
             			}
             			int numSerie=0;
             			if (seriesNumber != null)

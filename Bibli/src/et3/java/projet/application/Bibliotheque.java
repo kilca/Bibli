@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import et3.java.projet.application.documents.*;
+import et3.java.projet.application.exceptions.DocumentNotFoundException;
+import et3.java.projet.application.exceptions.command.WrongArgumentFormatException;
+import et3.java.projet.application.exceptions.command.WrongArgumentLogicException;
 
 public class Bibliotheque {
 
@@ -85,10 +88,9 @@ public class Bibliotheque {
 	 * @return vrai (true) si la transaction à fonctionnée ou faux (false) sinon
 	 */
 	
-	public boolean donnerDocumentBibli(Document doc, Bibliotheque bibli) {
+	public boolean donnerDocumentBibli(Document doc, Bibliotheque bibli) throws DocumentNotFoundException {
 		if(!documentsHeberge.contains(doc)) {
-			System.err.println("la bibliotheque ne possede pas ce document");
-			return false;
+			throw new DocumentNotFoundException("the librairy does not contains this document",doc);
 		}
 		else {
 			RetirerUniteDocument(doc);
@@ -108,6 +110,7 @@ public class Bibliotheque {
 			System.out.println(d);
 			
 		}
+		
 	}
 	
 	/**
@@ -126,7 +129,7 @@ public class Bibliotheque {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+			System.out.println("there is not document from this author in the librairy.");
 		}
 		return exist;
 	}
@@ -146,7 +149,7 @@ public class Bibliotheque {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+			System.out.println("there is not document from this author in the librairy.");
 		}
 		return exist;
 	}
@@ -166,7 +169,7 @@ public class Bibliotheque {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans cette bibliotheque.");
+			System.out.println("there is not document from this author in the librairy.");
 		}
 		return exist;
 	}
@@ -181,7 +184,7 @@ public class Bibliotheque {
 
 		Document d = livreISBN.get(ISBN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans la bibliotheque");
+			System.out.println("this document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -198,7 +201,7 @@ public class Bibliotheque {
 
 		Document d = docsEAN.get(EAN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans la bibliotheque");
+			System.out.println("this document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -213,10 +216,18 @@ public class Bibliotheque {
 	 */
 	
 	
-	public boolean NbDocuments(String sBegin, String sEnd) {
+	public boolean NbDocuments(String sBegin, String sEnd) throws WrongArgumentFormatException, WrongArgumentLogicException {
 		
-		int begin = Integer.parseInt(sBegin);
-		int end = Integer.parseInt(sEnd);
+		int begin = 0;
+		int end= 0;
+		
+		try {
+			begin = Integer.parseInt(sBegin);
+			end = Integer.parseInt(sEnd);
+					
+		}catch (NumberFormatException e) {
+			throw new WrongArgumentFormatException("wrong date format");
+		}
 		
 		int nbAutre = 0;
 		int nbBD = 0;
@@ -231,8 +242,7 @@ public class Bibliotheque {
 		
 		boolean exist = false;
 		if(begin > end) {
-			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
-			return false;
+			throw new WrongArgumentLogicException("The intial date must be before the final date");
 		}
 		for(Document doc : documentsHeberge) {
 			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
@@ -265,7 +275,7 @@ public class Bibliotheque {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document n'est inclu dans cette interval de temps");
+			System.out.println("there is no document in the time interval");
 		}else {
 			System.out.println("Autre : "+nbAutre);
 			System.out.println("BD : "+nbBD);

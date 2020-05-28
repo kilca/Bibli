@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import et3.java.projet.application.documents.*;
-import et3.java.projet.application.exceptions.DocumentExistException;
+import et3.java.projet.application.exceptions.SerieNotFoundException;
+import et3.java.projet.application.exceptions.command.WrongArgumentFormatException;
+import et3.java.projet.application.exceptions.command.WrongArgumentLogicException;
 import et3.java.projet.data.FileReader;
 
 /**
@@ -44,16 +46,14 @@ public class Systeme {
 	}
 	
 	/**
-	 * permet l'affichage, trié par date, des documents d'une série
+	 * affiche les documents d'une serie 
 	 * @param titre		le titre de la serie
-	 * @return faux (false) si la série n'est pas trouvé dans le systeme, vrai (true) sinon
+	 * @return vrai(true) si la serie est trouvée, faux(false) sinon
 	 */
-	
-	public static boolean afficherSerie(String titre) {
+	public static boolean afficherSerie(String titre) throws SerieNotFoundException {
 		Serie s =series.get(titre);
 		if (s == null) {
-			System.err.println("serie not found");
-			return false;
+			throw new SerieNotFoundException("serie not found");
 		}
 		List<Document> docs = s.getDocuments();
 		
@@ -86,11 +86,10 @@ public class Systeme {
 	 * @return faux (false) si la série n'est pas trouvé dans le systeme ou si aucun document de la serie n'est stocké dans la bibliotheque, vrai (true) sinon
 	 */
 	
-	public static boolean afficherBibliSerie(Bibliotheque bibli, String titre) {
+	public static boolean afficherBibliSerie(Bibliotheque bibli, String titre) throws SerieNotFoundException {
 		Serie s =series.get(titre);
 		if (s == null) {
-			System.err.println("serie not found");
-			return false;
+			throw new SerieNotFoundException("serie not found");
 		}
 		List<Document> docs = s.getDocuments();
 		Collections.sort(docs, new Comparator<Document>() 
@@ -113,7 +112,7 @@ public class Systeme {
 			}
 		}
 		if(!isPresent) {
-			System.err.println("la bibliotheque ne contient aucun document de cette serie");
+			System.out.println("the librairy does not contain any document of this serie");
 		}
 		return isPresent;
 	}
@@ -133,7 +132,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -153,7 +152,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -174,7 +173,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -189,7 +188,7 @@ public class Systeme {
 
 		Document d = livreISBN.get(ISBN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans le systeme");
+			System.out.println("This document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -206,7 +205,7 @@ public class Systeme {
 
 		Document d = docsEAN.get(EAN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans le systeme");
+			System.out.println("This document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -220,24 +219,78 @@ public class Systeme {
 	 * @return faux (false) si ancun document n'est trouvé entre les deux années ou si l'année intial est plus grande que l'année finale,vrai (true) sinon
 	 */
 	
-	public static boolean NbDocuments(String sBegin, String sEnd) {
-		int begin = Integer.parseInt(sBegin);
-		int end = Integer.parseInt(sEnd);
-		int nb = 0;
+	
+	public static boolean NbDocuments(String sBegin, String sEnd) throws WrongArgumentFormatException, WrongArgumentLogicException {
+		
+		int begin = 0;
+		int end= 0;
+		
+		try {
+			begin = Integer.parseInt(sBegin);
+			end = Integer.parseInt(sEnd);
+					
+		}catch (NumberFormatException e) {
+			throw new WrongArgumentFormatException("wrong date format");
+		}
+		
+		int nbAutre = 0;
+		int nbBD = 0;
+		int nbCarte = 0;
+		int nbCD = 0;
+		int nbJeuDeSociete = 0;
+		int nbJeuVideo = 0;
+		int nbLivre = 0;
+		int nbPartition =0;
+		int nbRevue = 0;
+		int nbVinyle = 0;
+		
 		boolean exist = false;
 		if(begin > end) {
-			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
-			return false;
+			throw new WrongArgumentLogicException("The intial date must be before the final date");
 		}
 		for(Document doc : documents) {
 			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
-				nb++;
-				exist = true;
+				
+				//marcherais aussi d'utiliser un enum dans les classes mais reste plus opti que class.getSimpleName()
+				if (!exist)
+					exist = true;
+				
+				if (doc instanceof Autre)
+					nbAutre++;
+				else if (doc instanceof BD)
+					nbBD++;
+				else if (doc instanceof Carte)
+					nbCarte++;
+				else if (doc instanceof CD)
+					nbCD++;
+				else if (doc instanceof JeuDeSociete)
+					nbJeuDeSociete++;
+				else if (doc instanceof JeuVideo)
+					nbJeuVideo++;
+				else if (doc instanceof Partition)
+					nbPartition++;
+				else if (doc instanceof Revue)
+					nbRevue++;
+				else if (doc instanceof Vinyle)
+					nbVinyle++;
+				else if (doc instanceof Livre)//a mettre en dernier car reconnait ses enfants
+					nbLivre++;
+				
 			}
 		}
-		System.out.println(nb + " documents");
 		if(!exist) {
-			System.out.println("aucun document n'est inclu dans cette interval de temps");
+			System.out.println("there is no document in the time interval");
+		}else {
+			System.out.println("Autre : "+nbAutre);
+			System.out.println("BD : "+nbBD);
+			System.out.println("Carte : "+nbCarte);
+			System.out.println("CD : "+nbCD);
+			System.out.println("JeuDeSociete : "+nbJeuDeSociete);
+			System.out.println("JeuVideo : "+nbJeuVideo);
+			System.out.println("Livre : "+nbLivre);
+			System.out.println("Partition : "+nbPartition);
+			System.out.println("Revue : "+nbRevue);
+			System.out.println("Vinyle : "+nbVinyle);
 		}
 		return exist;
 	}
@@ -267,7 +320,7 @@ public class Systeme {
 				System.out.println("[Main] No file " + dir);
 			}
 	}
-	
+		
 	public static Bibliotheque getBibliothequeByName(String n) {
 		for(Bibliotheque b : bibliotheques) {
 			if (b.name.equals(n)) {
@@ -284,11 +337,10 @@ public class Systeme {
 	 * @param serie		la serie à ajouter dans le systeme
 	 */
 	
-	public static void ajouterSerie(Serie serie) {
+	public static void ajouterSerie(Serie serie) throws SerieNotFoundException {
 		String serieName = serie.getTitre();
 		if (serieName == null) {
-			System.err.println("error serie title null");
-			return;
+			throw new SerieNotFoundException("error serie title null");
 		}
 		if (!series.containsKey(serieName))
 			series.put(serieName, serie);
@@ -371,18 +423,13 @@ public class Systeme {
 	 * @param bibli		la bibliotheque dans laquelle il est ajouté
 	 * @return vrai(true) si l'utilisateur a bien été ajouté, faux(false) sinon
 	 */
-	
 	public static boolean ajouterUtilisateur(Utilisateur user, Bibliotheque bibli) {
-		if(bibli.utilisateurs.contains(user)) {
-			System.err.println("this user already exist in this bibliotheque");
-			return false;
-		}
 		if(user != null && bibli != null) {
 			user.setInscription(bibli);
 			System.out.println("user added");
 			return bibli.utilisateurs.add(user);
 		}
-		System.err.println("cannot add utilisateur");
+		System.err.println("cannot add user");
 		return false;		
 		
 	}
@@ -402,7 +449,7 @@ public class Systeme {
 				return u;
 		}
 		return null;
-		
+
 	}
 	
 	/**
