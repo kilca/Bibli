@@ -36,7 +36,9 @@ public class ConsoleCommand {
 		
 		
 		
-		Systeme.ajouterUtilisateur(new Utilisateur(quota,args[2]), b);
+		if (Systeme.ajouterUtilisateur(new Utilisateur(quota,args[2]), b)) {
+			System.out.println("user added");
+		}
 		
 	}
 	
@@ -47,7 +49,9 @@ public class ConsoleCommand {
 			System.err.println("wrong argument number");
 			return;
 		}
-		Systeme.ajouterBibliotheque(new Bibliotheque(args[0]));
+		if(Systeme.ajouterBibliotheque(new Bibliotheque(args[0]))) {
+			System.out.println("Bibliotheque added");
+		}
 		
 	}
 	
@@ -310,9 +314,24 @@ public class ConsoleCommand {
 					b.NbDocuments(args[1], args[2]);
 				//Todo 9
 				break;
+			case "userdoc":
+				if(args.length != 3) {
+					System.err.println("wrong argument number");
+				}
+				b = Systeme.getBibliothequeByName(args[2]);
+				if(b == null) {
+					System.err.println("error : bibliotheque not found");
+					break;
+				}
+				Utilisateur u = Systeme.getUtilisateur(args[1], b);
+				if(u == null) {
+					System.err.println("error : user not found");
+					break;
+				}
+				u.userDoc();
+				break;
 			default:
 				System.err.println("invalid argument");
-		
 		
 		
 		}
@@ -362,14 +381,23 @@ public class ConsoleCommand {
 			case"transmit":
 				switch (inputs[1]) {
 				case "borrow":
-					if (inputs.length != 4 && inputs.length != 2) {
+					if (inputs.length != 4 && inputs.length != 6) {
 						System.err.println("must give right argument number");
 						break;
 					}
-					Utilisateur u = Systeme.getUtilisateur(inputs[1]);
+					Bibliotheque b = Systeme.getBibliothequeByName(inputs[3]);
+					if(b == null) {
+						System.err.println("error : bibliotheque not found");
+						break;
+					}
+					Utilisateur u = Systeme.getUtilisateur(inputs[2],b);
+					if(u == null) {
+						System.err.println("error : user not found");
+						break;
+					}
 					Document d = null;
-					if (inputs.length == 4 && inputs[2].equals("-e")) {
-						d = Systeme.docsEAN.get(inputs[3]);
+					if (inputs.length == 6 && inputs[4].equals("-e")) {
+						d = Systeme.docsEAN.get(inputs[5]);
 					}else {
 						System.out.println("Please Enter the title of the document you want to borrow");
 						Scanner scan = new Scanner(System.in);
@@ -379,35 +407,54 @@ public class ConsoleCommand {
 					
 					
 						d = Systeme.getDocumentByTitle(docTitle);
+						if(d == null) {
+							System.err.println("error : Document not found");
+							break;
+						}
+						
 					}
 				
-					//Appeler la fonction d'emprunt
-					System.out.println("todo (appeler la fonction d'emprunt)");
-				
+					if(u.emprunter(d)) {
+						System.out.println("borrowing done");
+					} else System.err.println("error : borrowing impossible");
 					break;
 				
 				case "remit":
 				
-					if (inputs.length != 4 && inputs.length != 2) {
+					if (inputs.length != 6 && inputs.length != 4) {
 						System.err.println("must give right argument number");
 						break;
 					}
-					Utilisateur u2 = Systeme.getUtilisateur(inputs[1]);
-					Document d2 = null;
-					if (inputs.length == 4 && inputs[2].equals("-e")) {
-						d2 = Systeme.docsEAN.get(inputs[3]);
+					b = Systeme.getBibliothequeByName(inputs[3]);
+					if(b == null) {
+						System.err.println("error : bibliotheque not found");
+						break;
+					}
+					u = Systeme.getUtilisateur(inputs[2],b);
+					if(u == null) {
+						System.err.println("error : user not found");
+						break;
+					}
+					d = null;
+					if (inputs.length == 6 && inputs[4].equals("-e")) {
+						d = Systeme.docsEAN.get(inputs[5]);
 					}else {
-						System.out.println("Please Enter the title of the document you want to borrow");
+						System.out.println("Please Enter the title of the document you want to remit");
 						Scanner scan = new Scanner(System.in);
 					
 						String docTitle = scan.nextLine();
 					
 						scan.close();
 					
-						d2 = Systeme.getDocumentByTitle(docTitle);
+						d = Systeme.getDocumentByTitle(docTitle);
+						if(d == null) {
+							System.err.println("error : Document not found");
+							break;
+						}
 					}
-					//Appeler la fonction d'emprunt
-					System.out.println("todo (appeler la fonction de remise)");
+					if(u.rendre(d)) {
+						System.out.println("remit done");
+					}else System.err.println("error : remit impossible");
 				
 					break;
 				case "exchange":
@@ -435,7 +482,7 @@ public class ConsoleCommand {
 					}else System.err.println("error, wrong argument");
 					break;
 				default :
-					System.err.println("error, transmit must be followed by borrow, remit or exchange");
+					System.err.println("invalid argument");
 				}
 			case "help":
 				if (inputs.length ==1) {
@@ -459,10 +506,11 @@ public class ConsoleCommand {
 						System.out.println("show [-b (bibli)] docbyisbn (ISBN)");
 						System.out.println("show [-b (bibli)] docbyean (EAN)");
 						System.out.println("show [-b (bibli)] nbdoc (beginDate) (endDate)");
+						System.out.println("show userdoc (username) (bibli)");
 						break;
 					case "transmit":
-						System.out.println("transmit borrow [-e (ean)]");
-						System.out.println("transmit remit [-e (ean)]");
+						System.out.println("transmit borrow (username)(bibli)[-e (ean)]");
+						System.out.println("transmit remit (username)(bibli)[-e (ean)]");
 						System.out.println("transmit exchange (Bibliotheque transmitting) (Bibliotheque receiving) [-e (ean)]");
 					default:
 					
@@ -470,7 +518,7 @@ public class ConsoleCommand {
 				}
 				break;
 			default:
-				System.err.print("error command not found, type help");
+				System.err.println("error command not found, type help");
 				break;
 		
 		
