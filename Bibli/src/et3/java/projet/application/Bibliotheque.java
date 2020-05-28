@@ -20,7 +20,7 @@ public class Bibliotheque {
 	public HashMap<String, Livre> livreISBN = new HashMap<String,Livre>();
 	//hashmap avec EAN
 	public HashMap<String, Document> docsEAN = new HashMap<String,Document>();
-	
+
 	public Bibliotheque(String n) {
 		this.name = n;
 		
@@ -30,36 +30,47 @@ public class Bibliotheque {
 		
 	}
 	
-	public void ajouterDocument(Document d, int nbDocument) {
-		if (!documentsHeberge.contains(d)) {
-			documentsHeberge.add(d);
-			if(d.getEAN() != null && d.getEAN() != "") {
-				docsEAN.put(d.getEAN(), d);
+	/**
+	 * Ajoute un document à la bibliotheque, s'il existe.
+	 * @param doc          le document à ajouter
+	 * @param nbDocument   le nombre de document du meme type. 
+	 */
+	public void ajouterDocument(Document doc, int nbDocument) {
+		if (!documentsHeberge.contains(doc)) {
+			documentsHeberge.add(doc);
+			if(doc.getEAN() != null && doc.getEAN() != "") {
+				docsEAN.put(doc.getEAN(), doc);
 			}
-			if(d instanceof Livre) {
-				if(((Livre)d).getISBN() != null && ((Livre)d).getISBN() != "") {
-					livreISBN.put(((Livre) d).getISBN(), (Livre) d);
+			if(doc instanceof Livre) {
+				if(((Livre)doc).getISBN() != null && ((Livre)doc).getISBN() != "") {
+					livreISBN.put(((Livre) doc).getISBN(), (Livre) doc);
 				}
 			}
 			
 		}
 
-		if (!nbDocuments.containsKey(d)) {
-			nbDocuments.put(d, nbDocument);
+		if (!nbDocuments.containsKey(doc)) {
+			nbDocuments.put(doc, nbDocument);
 		}else {
-			nbDocuments.put(d, nbDocuments.get(d) + nbDocument);
+			nbDocuments.put(doc, nbDocuments.get(doc) + nbDocument);
 		}
 	}
 	
-	public boolean RetirerUniteDocument(Document d) { // permet de retirer un document dans nbDocuments
-		if(this.documentsHeberge.contains(d) && nbDocuments.get(d) > 0) {
-				Integer t = nbDocuments.get(d) - 1;
+	/**
+	 * Retirer une unitée du document, si il existe. Si il n'y avait qu'une seule unité du document cela supprime le document de la liste.
+	 * @param doc          le document à supprimer
+	 * @return vrai (true) si la suppression à fonctionnée ou faux (false) sinon
+	 */
+	
+	public boolean RetirerUniteDocument(Document doc) { // permet de retirer un document dans nbDocuments
+		if(this.documentsHeberge.contains(doc) && nbDocuments.get(doc) > 0) {
+				Integer t = nbDocuments.get(doc) - 1;
 				if(t < 1) {
-					nbDocuments.remove(d);
-					documentsHeberge.remove(d);
+					nbDocuments.remove(doc);
+					documentsHeberge.remove(doc);
 				}
 				else{ 
-					nbDocuments.replace(d, t);
+					nbDocuments.replace(doc, t);
 				}
 				return true;
 		}
@@ -67,27 +78,44 @@ public class Bibliotheque {
 		
 	}
 	
-	public boolean donnerDocumentBibli(Document d, Bibliotheque b) {
-		if(!documentsHeberge.contains(d)) {
+	/**
+	 * Transmettre un document à une autre bibliotheque
+	 * @param doc          le document à transmettre 
+	 * @param bibli        la bibliotheque qui reçoit le document
+	 * @return vrai (true) si la transaction à fonctionnée ou faux (false) sinon
+	 */
+	
+	public boolean donnerDocumentBibli(Document doc, Bibliotheque bibli) {
+		if(!documentsHeberge.contains(doc)) {
 			System.err.println("la bibliotheque ne possede pas ce document");
 			return false;
 		}
 		else {
-			RetirerUniteDocument(d);
-			b.ajouterDocument(d, 1);
+			RetirerUniteDocument(doc);
+			bibli.ajouterDocument(doc, 1);
 			return true;
 		}
 	}
 	//-----------Affichage------------------
 	
+	/**
+	 * afficher la liste des documents possedes par la bibliotheque
+	 */
+
 	public void afficherDocs() {
 		
 		for(Document d : documentsHeberge) {
 			System.out.println(d);
 			
 		}
-		
 	}
+	
+	/**
+	 * afficher la liste des documents d'un auteur detenue par la bibliotheque
+	 * @param nom          le nom de l'auteur 
+	 * @param prenom       le prenom de l'auteur
+	 * @return faux (false) si aucun document de l'auteur n'est présent dans la bibliotheque ou vrai (true) sinon
+	 */
 	
 	public boolean afficherDocAuteur(String prenom, String nom) {
 		boolean exist = false;
@@ -103,6 +131,12 @@ public class Bibliotheque {
 		return exist;
 	}
 	
+	/**
+	 * afficher la liste des documents d'un auteur detenue par la bibliotheque en foction de son prenom
+	 * @param prenom       le prenom de l'auteur
+	 * @return faux (false) si aucun document de l'auteur n'est présent dans la bibliotheque ou vrai (true) sinon
+	 */
+	
 	public boolean afficherDocAuteuravecPrenom(String prenom) {
 		boolean exist = false;
 		for(Document doc : documentsHeberge) {
@@ -116,6 +150,12 @@ public class Bibliotheque {
 		}
 		return exist;
 	}
+	
+	/**
+	 * afficher la liste des documents d'un auteur detenue par la bibliotheque en fonction de son nom
+	 * @param nom          le nom de l'auteur 
+	 * @return faux (false) si aucun document de l'auteur n'est présent dans la bibliotheque ou vrai (true) sinon
+	 */
 	
 	public boolean afficherDocAuteuravecNom(String nom) {
 		boolean exist = false;
@@ -131,6 +171,12 @@ public class Bibliotheque {
 		return exist;
 	}
 	
+	/**
+	 * afficher un documents avec son ISBN dans la bibliotheque
+	 * @param ISBN          l'ISBN du document 
+	 * @return vrai (true) si le document est trouvé ou faux (false) sinon
+	 */
+	
 	public boolean afficherDocISBN(String ISBN) {
 
 		Document d = livreISBN.get(ISBN);
@@ -142,6 +188,12 @@ public class Bibliotheque {
 		return true;
 	}
 	
+	/**
+	 * afficher un documents avec son EAN dans la bibliotheque
+	 * @param EAN          l'EAN du document 
+	 * @return vrai (true) si le document est trouvé ou faux (false) sinon
+	 */
+	
 	public boolean afficherDocEAN(String EAN) {
 
 		Document d = docsEAN.get(EAN);
@@ -152,6 +204,14 @@ public class Bibliotheque {
 		System.out.println(d);
 		return true;
 	}
+	
+	/**
+	 * affiche le nombre de document par type entre deux années
+	 * @param sBegin       l'année initial
+	 * @param sEnd         l'année final
+	 * @return faux (false) si ancun document n'est trouvé entre les deux années ou si l'année intial est plus grande que l'année finale,vrai (true) sinon
+	 */
+	
 	
 	public boolean NbDocuments(String sBegin, String sEnd) {
 		

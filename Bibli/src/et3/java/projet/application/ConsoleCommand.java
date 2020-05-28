@@ -7,9 +7,18 @@ import java.util.Scanner;
 
 import et3.java.projet.application.documents.*;
 
+/**
+ * classe réalisant la gestion de la console de commande, interface entre l'utilisateur et l'application 
+ */
+
 public class ConsoleCommand {
 
-	//bibliotheque quota username
+	
+	/**
+	 * permet d'interpretter la commande d'ajout d'utilisateur dans la console avec la fonction addUser de Systeme
+	 * @param args         liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addUser(String[] args) {
 		
 		if (args.length != 3) {
@@ -42,7 +51,11 @@ public class ConsoleCommand {
 		
 	}
 	
-	//nom
+	/**
+	 * permet d'interpretter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addBibli(String[] args) {
 		
 		if (args.length != 1) {
@@ -55,8 +68,11 @@ public class ConsoleCommand {
 		
 	}
 	
-	//type ean, title, publisher, date, authorName, authorSurname, ISBN(fac)
-	//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
+	/**
+	 * permet d'interpreter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addDoc(String[] args) {
 		
 		if (args.length != 7 && args.length != 8 ) {
@@ -177,6 +193,10 @@ public class ConsoleCommand {
 		
 	}
 	
+	/**
+	 * permet d'interpretter toutes les commandes d'affichage(show) dans la console.
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
 	
 	private static void showValues(String[] args) {
 		
@@ -337,6 +357,11 @@ public class ConsoleCommand {
 		}
 		
 	}
+	
+	/**
+	 * permet d'interpretter toutes les commandes d'ajout(add) et de modification(transmit) dans la console. réalise l'appel de la fonction showValues
+	 * @param inputs        liste d'arguments tapé dans la console.
+	 */
 	
 	private static void checkInput(String[] inputs) {
 		
@@ -525,6 +550,10 @@ public class ConsoleCommand {
 		}
 		
 	}
+	
+	/**
+	 * tant que le programme est lancé, lit dans la console les instructions de l'utilisateur
+	 */
 	
 	public static void readConsole() {
 		while(true) {
