@@ -6,15 +6,23 @@ import java.util.List;
 import java.util.Scanner;
 
 import et3.java.projet.application.documents.*;
+import et3.java.projet.application.exceptions.BibliothequeNotFoundException;
+import et3.java.projet.application.exceptions.DocumentNotFoundException;
+import et3.java.projet.application.exceptions.SerieNotFoundException;
+import et3.java.projet.application.exceptions.UtilisateurNotFoundException;
+import et3.java.projet.application.exceptions.command.CommandException;
+import et3.java.projet.application.exceptions.command.WrongArgumentFormatException;
+import et3.java.projet.application.exceptions.command.WrongArgumentLogicException;
+import et3.java.projet.application.exceptions.command.WrongArgumentNumberException;
+import et3.java.projet.application.exceptions.command.WrongAttributeException;
 
 public class ConsoleCommand {
 
 	//bibliotheque quota username
-	private static void addUser(String[] args) {
+	private static void addUser(String[] args) throws WrongArgumentNumberException, WrongArgumentFormatException, BibliothequeNotFoundException {
 		
 		if (args.length != 3) {
-			System.err.println("wrong argument number");
-			return;
+			throw new WrongArgumentNumberException("wrong argument number");
 		}
 		
 		int quota = -1;
@@ -24,7 +32,7 @@ public class ConsoleCommand {
 		}
 		catch (NumberFormatException e)
 		{
-			System.err.println("error user quota not a int");
+			throw new WrongArgumentFormatException("error user quota not a int");
 		}
 		
 	
@@ -32,43 +40,40 @@ public class ConsoleCommand {
 		Bibliotheque b = Systeme.getBibliothequeByName(args[0]);
 		
 		if (b == null)
-			System.err.println("error bibliotheque not found");
+			throw new BibliothequeNotFoundException("librairy was not found",args[0]);
 		
 		
-		
-		if (Systeme.ajouterUtilisateur(new Utilisateur(quota,args[2]), b)) {
-			System.out.println("user added");
+		Utilisateur u = new Utilisateur(quota,args[2]);
+		if (Systeme.ajouterUtilisateur(u, b)) {
+			System.out.println("user added with maxQuota :"+u.getQuota());
 		}
 		
 	}
 	
 	//nom
-	private static void addBibli(String[] args) {
+	private static void addBibli(String[] args) throws WrongArgumentNumberException {
 		
 		if (args.length != 1) {
-			System.err.println("wrong argument number");
-			return;
+			throw new WrongArgumentNumberException("wrong argument number");
 		}
 		if(Systeme.ajouterBibliotheque(new Bibliotheque(args[0]))) {
-			System.out.println("Bibliotheque added");
+			System.out.println("Librairy added");
 		}
 		
 	}
 	
 	//type ean, title, publisher, date, authorName, authorSurname, ISBN(fac)
 	//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
-	private static void addDoc(String[] args) {
+	private static void addDoc(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, SerieNotFoundException, WrongAttributeException {
 		
 		if (args.length != 7 && args.length != 8 ) {
-			System.err.println("wrong argument number");
-			return;
+			throw new WrongArgumentNumberException("wrong argument number");
 		}
 		
 		Bibliotheque b = Systeme.getBibliothequeByName(args[0]);
 		
 		if (b == null) {
-			System.err.println("bibli :"+args[0]+"does not exist");
-			return;
+			throw new BibliothequeNotFoundException("bibli does not exist",args[0]);
 		}
 		
 		System.out.println("Please Enter the title of the document you want to create");
@@ -80,7 +85,7 @@ public class ConsoleCommand {
 			docTitle = scan.nextLine();
 		
 		
-		System.out.println("Veuillez entrer le titre de la serie (vide si non existe)");
+		System.out.println("Pleasene enter serie title (empty if nonexistent)");
 		//scan = new Scanner(System.in);
 		String serieTitle = "";
 		if (scan.hasNextLine())
@@ -93,16 +98,14 @@ public class ConsoleCommand {
 			serie = Systeme.getSerieByName(serieTitle);
 		
 		if (serie != null) {
-			System.out.println("Veuillez entrer le numero de serie");
+			System.out.println("Please enter serie number");
 			try {
 			numSerie = scan.nextInt();
 			}catch (InputMismatchException e) {
-				System.err.println("vous devez rentrer un nombre");
-				return;
+				throw new WrongArgumentFormatException("You should enter a number");
 			}
 		}else if (!serieTitle.equals("")) {
-			System.err.println("Serie indique non exitente, creation annulee");
-			return;
+			throw new SerieNotFoundException("serie does not exist",serieTitle);
 		}
 		
 		//docTitle
@@ -157,8 +160,7 @@ public class ConsoleCommand {
 				d = Systeme.ajouterDocument(new Vinyle(ean, docTitle, publisher, date, authorNom, authorPrenom));
 				break;
 			default:
-				System.err.println("invalid type of Document");
-				break;
+				throw new WrongArgumentFormatException("invalid type of document");
 		
 		}
 		
@@ -169,25 +171,28 @@ public class ConsoleCommand {
 			if (serie != null) {
 				d.setSerie(serie, numSerie);
 			}
-			System.out.println("le document a bien ete cree");
+			System.out.println("document created ..");
 		}else {
-			System.err.println("il existe deja un document avec cet ISBN/EAN");
+			throw new WrongAttributeException("a document with this ISBN/EAN already exist");
 		}
 		//On ajoute un user
 		
 	}
 	
 	
-	private static void showValues(String[] args) {
+	private static void showValues(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, WrongArgumentLogicException, SerieNotFoundException {
 		
 		Bibliotheque b = null;
 		if (args.length > 2 && args[0].equals("-b")) {
 			b = Systeme.getBibliothequeByName(args[1]);
+			if (b == null) {
+				throw new BibliothequeNotFoundException("librairy not found",args[1]);
+			}
 			args = Arrays.copyOfRange(args, 2, args.length);
 		}
 		
 		if (args.length <1) {
-			System.err.println("missing argument");
+			throw new WrongArgumentNumberException("missing argument");
 		}
 		
 		switch (args[0]) {
@@ -250,9 +255,7 @@ public class ConsoleCommand {
 				}
 				
 				if (authorNom == null && authorPrenom == null){
-					
-					System.err.println("you must give the author name or prenom");
-					break;
+					throw new WrongArgumentNumberException("you must specify the author name or surname");
 				}
 				
 				if (b == null) {
@@ -281,8 +284,7 @@ public class ConsoleCommand {
 			case "docbyisbn":
 				
 				if (args.length != 2) {
-					System.err.println("wrong argument number");
-					break;
+					throw new WrongArgumentNumberException("wrong argument number");
 				}
 				//System.out.println("on test pour l'ISBN:"+args[1]);
 				if (b == null)
@@ -293,8 +295,7 @@ public class ConsoleCommand {
 				break;
 			case "docbyean":
 				if (args.length != 2) {
-					System.err.println("wrong argument number");
-					break;
+					throw new WrongArgumentNumberException("wrong argument number");
 				}
 				
 				if (b == null)
@@ -305,8 +306,7 @@ public class ConsoleCommand {
 				break;
 			case "nbdoc":
 				if (args.length != 3) {
-					System.err.println("wrong argument number");
-					break;
+					throw new WrongArgumentNumberException("wrong argument number");
 				}
 				if (b == null)
 					Systeme.NbDocuments(args[1], args[2]);
@@ -316,12 +316,11 @@ public class ConsoleCommand {
 				break;
 			case "userdoc":
 				if(args.length != 3) {
-					System.err.println("wrong argument number");
+					throw new WrongArgumentNumberException("wrong argument number");
 				}
 				b = Systeme.getBibliothequeByName(args[2]);
 				if(b == null) {
-					System.err.println("error : bibliotheque not found");
-					break;
+					throw new BibliothequeNotFoundException("librairy not found",args[2]);
 				}
 				Utilisateur u = Systeme.getUtilisateur(args[1], b);
 				if(u == null) {
@@ -338,7 +337,7 @@ public class ConsoleCommand {
 		
 	}
 	
-	private static void checkInput(String[] inputs) {
+	private static void checkInput(String[] inputs) throws BibliothequeNotFoundException, SerieNotFoundException, DocumentNotFoundException, UtilisateurNotFoundException, CommandException {
 		
 		switch (inputs[0]) {
 			case "clear":
@@ -347,8 +346,7 @@ public class ConsoleCommand {
 		    
 			case "add":
 				if (inputs.length < 2) {
-					System.err.println("error, missing arguments");
-					break;
+					throw new WrongArgumentNumberException("error, missing argument");
 				}
 				switch (inputs[1]) {
 					case "user":
@@ -361,15 +359,13 @@ public class ConsoleCommand {
 						addDoc(Arrays.copyOfRange(inputs, 2, inputs.length));
 						break;
 					default:
-						System.err.println("error wrong argument");
-						break;	
+						throw new WrongArgumentNumberException("error, wrong argument");
 				
 				}
 				break;
 			case "show":
 				if (inputs.length < 2) {
-					System.err.println("error, missing arguments");
-					break;
+					throw new WrongArgumentNumberException("error, missing argument");
 				}
 				
 				showValues(Arrays.copyOfRange(inputs, 1, inputs.length));
@@ -382,18 +378,16 @@ public class ConsoleCommand {
 				switch (inputs[1]) {
 				case "borrow":
 					if (inputs.length != 4 && inputs.length != 6) {
-						System.err.println("must give right argument number");
-						break;
+						throw new WrongArgumentNumberException("error, missing argument");
 					}
 					Bibliotheque b = Systeme.getBibliothequeByName(inputs[3]);
 					if(b == null) {
-						System.err.println("error : bibliotheque not found");
-						break;
+						throw new BibliothequeNotFoundException("error : librairy not found",inputs[3]);
+
 					}
 					Utilisateur u = Systeme.getUtilisateur(inputs[2],b);
 					if(u == null) {
-						System.err.println("error : user not found");
-						break;
+						throw new UtilisateurNotFoundException("error : user not found",inputs[2]);
 					}
 					Document d = null;
 					if (inputs.length == 6 && inputs[4].equals("-e")) {
@@ -408,32 +402,29 @@ public class ConsoleCommand {
 					
 						d = Systeme.getDocumentByTitle(docTitle);
 						if(d == null) {
-							System.err.println("error : Document not found");
-							break;
+							throw new DocumentNotFoundException("error : document not found",docTitle);
 						}
 						
 					}
 				
 					if(u.emprunter(d)) {
 						System.out.println("borrowing done");
-					} else System.err.println("error : borrowing impossible");
+					} else
+						System.err.println("error : borrowing impossible");
 					break;
 				
 				case "remit":
 				
 					if (inputs.length != 6 && inputs.length != 4) {
-						System.err.println("must give right argument number");
-						break;
+						throw new WrongArgumentNumberException("error, missing argument");
 					}
 					b = Systeme.getBibliothequeByName(inputs[3]);
 					if(b == null) {
-						System.err.println("error : bibliotheque not found");
-						break;
+						throw new BibliothequeNotFoundException("error : librairy not found",inputs[3]);
 					}
 					u = Systeme.getUtilisateur(inputs[2],b);
 					if(u == null) {
-						System.err.println("error : user not found");
-						break;
+						throw new UtilisateurNotFoundException("error : user not found",inputs[2]);
 					}
 					d = null;
 					if (inputs.length == 6 && inputs[4].equals("-e")) {
@@ -448,19 +439,18 @@ public class ConsoleCommand {
 					
 						d = Systeme.getDocumentByTitle(docTitle);
 						if(d == null) {
-							System.err.println("error : Document not found");
-							break;
+							throw new DocumentNotFoundException("error : document not found",docTitle);
 						}
 					}
 					if(u.rendre(d)) {
 						System.out.println("remit done");
-					}else System.err.println("error : remit impossible");
+					}else
+						System.err.println("error : remit impossible");
 				
 					break;
 				case "exchange":
 					if(inputs.length != 6 && inputs.length != 4) {
-						System.err.println("must give right argument number");
-						break;
+						throw new WrongArgumentNumberException("error, missing argument");
 					}
 					Bibliotheque b1 = Systeme.getBibliothequeByName(inputs[2]);
 					Bibliotheque b2 = Systeme.getBibliothequeByName(inputs[3]);
@@ -479,10 +469,11 @@ public class ConsoleCommand {
 						if(b1.donnerDocumentBibli(d3, b2)){
 							System.out.println("exchange performed");
 						}
-					}else System.err.println("error, wrong argument");
+					}else
+						System.err.println("error, wrong argument, one data was not found");
 					break;
 				default :
-					System.err.println("invalid argument");
+					throw new WrongArgumentFormatException("error, this argument does not exist");
 				}
 			case "help":
 				if (inputs.length ==1) {
@@ -518,8 +509,7 @@ public class ConsoleCommand {
 				}
 				break;
 			default:
-				System.err.println("error command not found, type help");
-				break;
+				throw new CommandException("error command not found, type 'help' for help");
 		
 		
 		}
@@ -532,7 +522,21 @@ public class ConsoleCommand {
 			
 			String[] inputs = scan.nextLine().split(" ");
 			
-			checkInput(inputs);
+			try {
+				checkInput(inputs);
+				
+				
+			} catch (BibliothequeNotFoundException e) {
+				System.err.println(e.getMessage());
+			} catch (SerieNotFoundException e) {
+				System.err.println(e.getMessage());
+			} catch (DocumentNotFoundException e) {
+				System.err.println(e.getMessage());
+			} catch (UtilisateurNotFoundException e) {
+				System.err.println(e.getMessage());
+			} catch (CommandException e) {
+				System.err.println(e.getMessage());
+			}
 		}
 	}
 	

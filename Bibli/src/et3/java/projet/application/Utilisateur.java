@@ -24,6 +24,9 @@ public class Utilisateur{
 		documentsEmprunte = new ArrayList<Document>();
 		
 	}
+	public int getQuota() {
+		return quota;
+	}
 	
 	public String getNom() {
 		return nom;

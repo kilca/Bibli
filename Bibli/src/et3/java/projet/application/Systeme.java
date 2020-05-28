@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import et3.java.projet.application.documents.*;
-import et3.java.projet.application.exceptions.DocumentExistException;
+import et3.java.projet.application.exceptions.SerieNotFoundException;
+import et3.java.projet.application.exceptions.command.WrongArgumentFormatException;
+import et3.java.projet.application.exceptions.command.WrongArgumentLogicException;
 import et3.java.projet.data.FileReader;
 
 public class Systeme {
@@ -36,11 +38,10 @@ public class Systeme {
 		
 	}
 	
-	public static boolean afficherSerie(String titre) {
+	public static boolean afficherSerie(String titre) throws SerieNotFoundException {
 		Serie s =series.get(titre);
 		if (s == null) {
-			System.err.println("serie not found");
-			return false;
+			throw new SerieNotFoundException("serie not found");
 		}
 		List<Document> docs = s.getDocuments();
 		
@@ -66,11 +67,10 @@ public class Systeme {
 		
 	}
 	
-	public static boolean afficherBibliSerie(Bibliotheque b, String titre) {
+	public static boolean afficherBibliSerie(Bibliotheque b, String titre) throws SerieNotFoundException {
 		Serie s =series.get(titre);
 		if (s == null) {
-			System.err.println("serie not found");
-			return false;
+			throw new SerieNotFoundException("serie not found");
 		}
 		List<Document> docs = s.getDocuments();
 		Collections.sort(docs, new Comparator<Document>() 
@@ -93,7 +93,7 @@ public class Systeme {
 			}
 		}
 		if(!isPresent) {
-			System.err.println("la bibliotheque ne contient aucun document de cette serie");
+			System.out.println("the librairy does not contain any document of this serie");
 		}
 		return isPresent;
 	}
@@ -107,7 +107,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -121,7 +121,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -135,7 +135,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document de cet auteur n'est stocke dans la base de donnee.");
+			System.out.println("there is no document from this author in the database.");
 		}
 		return exist;
 	}
@@ -144,7 +144,7 @@ public class Systeme {
 
 		Document d = livreISBN.get(ISBN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans le systeme");
+			System.out.println("This document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -155,7 +155,7 @@ public class Systeme {
 
 		Document d = docsEAN.get(EAN);
 		if (d == null) {
-			System.out.println("Ce document n'est pas dans le systeme");
+			System.out.println("This document is not in the librairy");
 			return false;
 		}
 		System.out.println(d);
@@ -163,7 +163,7 @@ public class Systeme {
 	}
 	
 	
-	public static boolean NbDocuments(String sBegin, String sEnd) {
+	public static boolean NbDocuments(String sBegin, String sEnd) throws WrongArgumentFormatException, WrongArgumentLogicException {
 		
 		int begin = 0;
 		int end= 0;
@@ -173,7 +173,7 @@ public class Systeme {
 			end = Integer.parseInt(sEnd);
 					
 		}catch (NumberFormatException e) {
-			System.err.println("wrong date format");
+			throw new WrongArgumentFormatException("wrong date format");
 		}
 		
 		int nbAutre = 0;
@@ -189,8 +189,7 @@ public class Systeme {
 		
 		boolean exist = false;
 		if(begin > end) {
-			System.err.println("l'annee initial doit etre inferieur ou egal a l'annee final");
-			return false;
+			throw new WrongArgumentLogicException("The intial date must be before the final date");
 		}
 		for(Document doc : documents) {
 			if(doc.dateToInt() >= begin && doc.dateToInt() <= end) {
@@ -223,7 +222,7 @@ public class Systeme {
 			}
 		}
 		if(!exist) {
-			System.out.println("aucun document n'est inclu dans cette interval de temps");
+			System.out.println("there is no document in the time interval");
 		}else {
 			System.out.println("Autre : "+nbAutre);
 			System.out.println("BD : "+nbBD);
@@ -271,11 +270,10 @@ public class Systeme {
 		
 	}
 	
-	public static void ajouterSerie(Serie serie) {
+	public static void ajouterSerie(Serie serie) throws SerieNotFoundException {
 		String serieName = serie.getTitre();
 		if (serieName == null) {
-			System.err.println("error serie title null");
-			return;
+			throw new SerieNotFoundException("error serie title null");
 		}
 		if (!series.containsKey(serieName))
 			series.put(serieName, serie);
@@ -341,7 +339,7 @@ public class Systeme {
 			u.setInscription(b);
 			return b.utilisateurs.add(u);
 		}
-		System.err.println("cannot add utilisateur");
+		System.err.println("cannot add user");
 		return false;		
 		
 		//todo (attention verifie qu'il n'y en ai pas qui aient le meme nom)
