@@ -349,17 +349,13 @@ public class Systeme {
 
 	
 	//sera a utiliser pour l'emprunt et la remise
-	public static Utilisateur getUtilisateur(String nom) {
-		
-		for(Bibliotheque b : bibliotheques) {
-			
-			for(Utilisateur u : b.utilisateurs) {
-				if (u.getNom().equals(nom))
-					return u;
-			}
+	public static Utilisateur getUtilisateur(String nom, Bibliotheque b) {
+		for(Utilisateur u : b.utilisateurs) {
+			if (u.getNom().equals(nom))
+				return u;
 		}
 		return null;
-		
+
 	}
 	
 	public static Document getDocumentByTitle(String title) {
