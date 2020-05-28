@@ -165,8 +165,16 @@ public class Systeme {
 	
 	public static boolean NbDocuments(String sBegin, String sEnd) {
 		
-		int begin = Integer.parseInt(sBegin);
-		int end = Integer.parseInt(sEnd);
+		int begin = 0;
+		int end= 0;
+		
+		try {
+			begin = Integer.parseInt(sBegin);
+			end = Integer.parseInt(sEnd);
+					
+		}catch (NumberFormatException e) {
+			System.err.println("wrong date format");
+		}
 		
 		int nbAutre = 0;
 		int nbBD = 0;
