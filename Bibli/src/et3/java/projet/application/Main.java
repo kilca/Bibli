@@ -30,6 +30,7 @@ public class Main
 	 * */
 	/**
 	 * fonction de demarage du programme, elle fait l'appel à l'importation des donnée du document, puis lance la lecture de la console.
+	 * @param args	chemin du projet (Bibli\src\et3\java\projet\data\data.csv)
 	 */
 	public static void main(String[] args) 
 	{

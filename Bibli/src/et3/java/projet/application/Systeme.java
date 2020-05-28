@@ -49,6 +49,7 @@ public class Systeme {
 	 * affiche les documents d'une serie 
 	 * @param titre		le titre de la serie
 	 * @return vrai(true) si la serie est trouvée, faux(false) sinon
+	 * @throws SerieNotFoundException
 	 */
 	public static boolean afficherSerie(String titre) throws SerieNotFoundException {
 		Serie s =series.get(titre);
@@ -84,6 +85,7 @@ public class Systeme {
 	 * @param titre		le titre de la serie
 	 * @param bibli		la bibliotheque dans laquel on fait la recherche
 	 * @return faux (false) si la série n'est pas trouvé dans le systeme ou si aucun document de la serie n'est stocké dans la bibliotheque, vrai (true) sinon
+	 * @throws SerieNotFoundException
 	 */
 	
 	public static boolean afficherBibliSerie(Bibliotheque bibli, String titre) throws SerieNotFoundException {
@@ -217,9 +219,9 @@ public class Systeme {
 	 * @param sBegin       l'année initial
 	 * @param sEnd         l'année final
 	 * @return faux (false) si ancun document n'est trouvé entre les deux années ou si l'année intial est plus grande que l'année finale,vrai (true) sinon
+	 * @throws WrongArgumentFormatException lorsque le format de la date est incorrect
+	 * @throws WrongArgumentLogicException lorsque la grandeur des date est incorrect
 	 */
-	
-	
 	public static boolean NbDocuments(String sBegin, String sEnd) throws WrongArgumentFormatException, WrongArgumentLogicException {
 		
 		int begin = 0;
@@ -335,8 +337,8 @@ public class Systeme {
 	/**
 	 * réaliser l'ajout d'une serie dans le systeme
 	 * @param serie		la serie à ajouter dans le systeme
+	 * @throws SerieNotFoundException
 	 */
-	
 	public static void ajouterSerie(Serie serie) throws SerieNotFoundException {
 		String serieName = serie.getTitre();
 		if (serieName == null) {
@@ -350,8 +352,8 @@ public class Systeme {
 	/**
 	 * réaliser l'ajout d'une Bibliotheque dans le systeme
 	 * @param bibli		la Bibliotheque à ajouter dans le systeme
+	 * @return vrai si il l'a bien ajoute, faux sinon
 	 */
-	
 	public static boolean ajouterBibliotheque(Bibliotheque bibli) {
 		
 		if (getBibliothequeByName(bibli.name) != null) {
@@ -390,6 +392,7 @@ public class Systeme {
 	/**
 	 * ajouter un document dans le systeme
 	 * @param doc		le document à ajouter
+	 * @return vrai si il l'a bien ajoute, faux sinon
 	 */
 	
 	public static Document ajouterDocument(Document doc) {

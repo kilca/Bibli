@@ -28,8 +28,8 @@ public class DonneeNotFoundException extends Exception {
 	
 	/**
      * constructeur recuperant le message d'erreur et la cause (généralement l'objet comparee)
-     * @param msg       le message d'erreur
-     * @param s         la cause de l'erreur (généralement l'objet comparee)
+     * @param msg	le message d'erreur
+     * @param o	la cause de l'erreur (généralement l'objet comparee)
      */
 	public DonneeNotFoundException(String msg, Object o){
 		
@@ -45,7 +45,8 @@ public class DonneeNotFoundException extends Exception {
 	
 	/**
 	*indique si l'objet qu'on a recupere est l'argument dont on tente de recup l'objet ou l'objet compare
-     */
+    * @return vrai si la donnee est un String, faux sinon
+    */
 	public boolean isDonneeString() {
 		return (donnee instanceof String);
 	}

@@ -31,9 +31,10 @@ public class Serie {
 	public String toString() {
 		return titre+":"+documents.size();
 	}
-	
+
 	/**
 	 * permet l'ajout d'un document à la série
+	 * @param d	le document a ajouter
 	 * @return vrai (true) si l'ajout a fonctionné, faux (false) sinon
 	 */
 	public boolean ajouterDocument(Document d) {

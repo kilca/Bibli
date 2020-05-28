@@ -26,8 +26,10 @@ public class ConsoleCommand {
 	/**
 	 * permet d'interpretter la commande d'ajout d'utilisateur dans la console avec la fonction addUser de Systeme
 	 * @param args         liste d'arguments tapé dans la console.
+	 * @throws WrongArgumentNumberException
+	 * @throws WrongArgumentFormatException est envoye lorsque le type du quota n'est pas un entier
+	 * @throws BibliothequeNotFoundException
 	 */
-	
 	private static void addUser(String[] args) throws WrongArgumentNumberException, WrongArgumentFormatException, BibliothequeNotFoundException {
 		
 		if (args.length != 3) {
@@ -62,6 +64,7 @@ public class ConsoleCommand {
 	/**
 	 * permet d'interpretter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
 	 * @param args        liste d'arguments tapé dans la console.
+	 * @throws WrongArgumentNumberException
 	 */
 	
 	private static void addBibli(String[] args) throws WrongArgumentNumberException {
@@ -78,8 +81,13 @@ public class ConsoleCommand {
 	/**
 	 * permet d'interpreter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
 	 * @param args        liste d'arguments tapé dans la console.
+	 * @throws WrongArgumentNumberException
+	 * @throws BibliothequeNotFoundException
+	 * @throws WrongArgumentFormatException
+	 * @throws SerieNotFoundException
+	 * @throws WrongAttributeException est envoye lorsque l'ISBN ou l'EAN existe deja
 	 */
-	
+
 	private static void addDoc(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, SerieNotFoundException, WrongAttributeException {
 		
 		if (args.length != 7 && args.length != 8 ) {
@@ -198,8 +206,13 @@ public class ConsoleCommand {
 	/**
 	 * permet d'interpretter toutes les commandes d'affichage(show) dans la console.
 	 * @param args        liste d'arguments tapé dans la console.
+	 * @throws WrongArgumentNumberException
+	 * @throws BibliothequeNotFoundException
+	 * @throws WrongArgumentFormatException
+	 * @throws WrongArgumentLogicException
+	 * @throws SerieNotFoundException
 	 */
-	
+
 	private static void showValues(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, WrongArgumentLogicException, SerieNotFoundException {
 		
 		Bibliotheque b = null;
@@ -358,10 +371,13 @@ public class ConsoleCommand {
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * 
 	 * @param inputs	les arguments de la commande
 	 * @param transmitType		le type de transmission (borrow ou remit)
+	 * @throws UtilisateurNotFoundException
+	 * @throws BibliothequeNotFoundException
+	 * @throws WrongArgumentNumberException
+	 * @throws DocumentNotFoundException
 	 */
 	private static void RemitOrBorrow(String[] inputs, String transmitType) throws UtilisateurNotFoundException, BibliothequeNotFoundException, WrongArgumentNumberException, DocumentNotFoundException {
 		
@@ -393,12 +409,15 @@ public class ConsoleCommand {
 			}
 		}
 		
-		if (transmitType.equals("remit")) {
+	
+		if (transmitType.equals("remit")) 	//si on remit
+		{
 			if(u.rendre(d)) {
 				System.out.println("remit done");
 			}else
 				System.err.println("error : remit impossible");
-		}else if (transmitType.equals("borrow")){
+		}else if (transmitType.equals("borrow"))	//si on borrow
+		{
 			if(u.emprunter(d)) {
 				System.out.println("borrowing done");
 			} else
@@ -409,12 +428,16 @@ public class ConsoleCommand {
 		}
 	
 	}
-=======
+	
+	/**
 	 * permet d'interpretter toutes les commandes d'ajout(add) et de modification(transmit) dans la console. réalise l'appel de la fonction showValues
 	 * @param inputs        liste d'arguments tapé dans la console.
-	 */
->>>>>>> branch 'master' of https://github.com/super-cokil/Bibli.git
-	
+	 *  @throws BibliothequeNotFoundException
+	 * @throws SerieNotFoundException
+	 * @throws DocumentNotFoundException
+	 * @throws UtilisateurNotFoundException
+	 * @throws CommandException
+	*/
 	private static void checkInput(String[] inputs) throws BibliothequeNotFoundException, SerieNotFoundException, DocumentNotFoundException, UtilisateurNotFoundException, CommandException {
 		
 		switch (inputs[0]) {
@@ -450,7 +473,6 @@ public class ConsoleCommand {
 				break;
 
 			case"transmit":
-				String transmitType = "";
 				switch (inputs[1]) {
 				case "borrow":
 					RemitOrBorrow(inputs,"borrow");

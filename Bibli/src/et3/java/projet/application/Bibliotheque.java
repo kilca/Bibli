@@ -86,6 +86,7 @@ public class Bibliotheque {
 	 * @param doc          le document à transmettre 
 	 * @param bibli        la bibliotheque qui reçoit le document
 	 * @return vrai (true) si la transaction à fonctionnée ou faux (false) sinon
+	 * @throws DocumentNotFoundException est renvoye lorsque la librairy ne contient pas le document
 	 */
 	
 	public boolean donnerDocumentBibli(Document doc, Bibliotheque bibli) throws DocumentNotFoundException {
@@ -213,8 +214,9 @@ public class Bibliotheque {
 	 * @param sBegin       l'année initial
 	 * @param sEnd         l'année final
 	 * @return faux (false) si ancun document n'est trouvé entre les deux années ou si l'année intial est plus grande que l'année finale,vrai (true) sinon
+	 * @throws WrongArgumentFormatException est envoye lorsque le format de la date est incorrect
+	 * @throws WrongArgumentLogicException est envoye lorsque la grandeur des date est incorrect
 	 */
-	
 	
 	public boolean NbDocuments(String sBegin, String sEnd) throws WrongArgumentFormatException, WrongArgumentLogicException {
 		
