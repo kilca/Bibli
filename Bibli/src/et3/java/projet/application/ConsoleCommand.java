@@ -16,9 +16,18 @@ import et3.java.projet.application.exceptions.command.WrongArgumentLogicExceptio
 import et3.java.projet.application.exceptions.command.WrongArgumentNumberException;
 import et3.java.projet.application.exceptions.command.WrongAttributeException;
 
+/**
+ * classe réalisant la gestion de la console de commande, interface entre l'utilisateur et l'application 
+ */
+
 public class ConsoleCommand {
 
-	//bibliotheque quota username
+	
+	/**
+	 * permet d'interpretter la commande d'ajout d'utilisateur dans la console avec la fonction addUser de Systeme
+	 * @param args         liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addUser(String[] args) throws WrongArgumentNumberException, WrongArgumentFormatException, BibliothequeNotFoundException {
 		
 		if (args.length != 3) {
@@ -50,7 +59,11 @@ public class ConsoleCommand {
 		
 	}
 	
-	//nom
+	/**
+	 * permet d'interpretter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addBibli(String[] args) throws WrongArgumentNumberException {
 		
 		if (args.length != 1) {
@@ -62,8 +75,11 @@ public class ConsoleCommand {
 		
 	}
 	
-	//type ean, title, publisher, date, authorName, authorSurname, ISBN(fac)
-	//type ean, publisher, date, authorName, authorSurname, ISBN(fac)
+	/**
+	 * permet d'interpreter la commande d'ajout de bibliotheque dans la console avec la fonction ajouterBibliotheque de Systeme
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
+	
 	private static void addDoc(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, SerieNotFoundException, WrongAttributeException {
 		
 		if (args.length != 7 && args.length != 8 ) {
@@ -179,6 +195,10 @@ public class ConsoleCommand {
 		
 	}
 	
+	/**
+	 * permet d'interpretter toutes les commandes d'affichage(show) dans la console.
+	 * @param args        liste d'arguments tapé dans la console.
+	 */
 	
 	private static void showValues(String[] args) throws WrongArgumentNumberException, BibliothequeNotFoundException, WrongArgumentFormatException, WrongArgumentLogicException, SerieNotFoundException {
 		
@@ -338,6 +358,7 @@ public class ConsoleCommand {
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * 
 	 * @param inputs	les arguments de la commande
 	 * @param transmitType		le type de transmission (borrow ou remit)
@@ -388,6 +409,11 @@ public class ConsoleCommand {
 		}
 	
 	}
+=======
+	 * permet d'interpretter toutes les commandes d'ajout(add) et de modification(transmit) dans la console. réalise l'appel de la fonction showValues
+	 * @param inputs        liste d'arguments tapé dans la console.
+	 */
+>>>>>>> branch 'master' of https://github.com/super-cokil/Bibli.git
 	
 	private static void checkInput(String[] inputs) throws BibliothequeNotFoundException, SerieNotFoundException, DocumentNotFoundException, UtilisateurNotFoundException, CommandException {
 		
@@ -499,6 +525,10 @@ public class ConsoleCommand {
 		}
 		
 	}
+	
+	/**
+	 * tant que le programme est lancé, lit dans la console les instructions de l'utilisateur
+	 */
 	
 	public static void readConsole() {
 		while(true) {

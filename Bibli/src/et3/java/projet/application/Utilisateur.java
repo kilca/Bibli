@@ -32,6 +32,11 @@ public class Utilisateur{
 		return nom;
 	}
 	
+	/**
+	 * verifie si les deux utilisateurs sont identique par leurs noms
+	 * @param o		l'objet à tester
+	 * @return vrai(true) si l'objet est un utilisateur et a le meme nom que l'utilisateur appelant la fonction, faux(false) sinon
+	 */
 	@Override 
 	public boolean equals(Object o) {
 		if(o != null && o instanceof Utilisateur) {
@@ -39,6 +44,12 @@ public class Utilisateur{
 		}
 		return false;
 	}
+	
+	/**
+	 * permet l'emprunt d'un document par l'utilisateur à sa bibliotheque
+	 * @param doc		le document à emprunter
+	 * @return vrai(true) si l'emprunt du document a fonctionné, faux(false) sinon
+	 */
 	
 	public boolean emprunter(Document doc) {
 		if(inscription != null && inscription.documentsHeberge.contains(doc)) {
@@ -52,6 +63,12 @@ public class Utilisateur{
 		}
 		return false;
 	}
+	
+	/**
+	 * permet la remise d'un document par l'utilisateur à sa bibliotheque
+	 * @param doc		le document à emprunter
+	 * @return vrai(true) si la remise du document a fonctionné, faux(false) sinon
+	 */
 	
 	public Boolean rendre(Document doc) {
 		if(documentsEmprunte.contains(doc)) {
@@ -69,6 +86,10 @@ public class Utilisateur{
 	}
 	
 	//-----------Affichage------------------
+	
+	/**
+	 * affiche la liste des documents empruntés par l'utilisateur
+	 */
 	
 	public void userDoc() {
 		System.out.println(nom + " documents :");

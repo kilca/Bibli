@@ -3,7 +3,9 @@ package et3.java.projet.application;
 import java.io.File;
 
 import et3.java.projet.data.FileReader;
-
+/**
+ * classe principale du projet
+ */
 public class Main 
 {
 	
@@ -26,7 +28,9 @@ public class Main
 	 * Emprunt et remise de doc
 	 * 
 	 * */
-	
+	/**
+	 * fonction de demarage du programme, elle fait l'appel à l'importation des donnée du document, puis lance la lecture de la console.
+	 */
 	public static void main(String[] args) 
 	{
 		try {

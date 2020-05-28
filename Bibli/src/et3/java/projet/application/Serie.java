@@ -10,11 +10,7 @@ public class Serie {
 	private String titre;
 	
 	private List<Document> documents;
-
-	@Override
-	public String toString() {
-		return titre+":"+documents.size();
-	}
+	
 
 	public Serie(String titre) {
 		
@@ -27,6 +23,19 @@ public class Serie {
 		return titre;
 	}
 	
+	/**
+	 * permet l'affichage d'une série
+	 * @return la description de la série
+	 */
+	@Override
+	public String toString() {
+		return titre+":"+documents.size();
+	}
+	
+	/**
+	 * permet l'ajout d'un document à la série
+	 * @return vrai (true) si l'ajout a fonctionné, faux (false) sinon
+	 */
 	public boolean ajouterDocument(Document d) {
 		return documents.add(d);	
 	}

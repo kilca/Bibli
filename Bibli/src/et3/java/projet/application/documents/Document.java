@@ -2,14 +2,10 @@ package et3.java.projet.application.documents;
 
 import java.util.Date;
 import et3.java.projet.application.*;
-/**
- * Classe document parente de tous les document
- * 
- *
- */
+
 public class Document {
 
-	protected int nNotice;//pourrait etre utilise pour d'autre csv
+	protected int nNotice;
 	protected String EAN;
 	protected String titre;
 	protected String editeur;
@@ -32,7 +28,7 @@ public class Document {
 	
 	@Override
 	public String toString() {
-		return "Document [EAN=" + EAN + ", titre=" + titre + ", editeur=" + editeur + ", date="
+		return "Document [nNotice=" + nNotice + ", EAN=" + EAN + ", titre=" + titre + ", editeur=" + editeur + ", date="
 				+ date + ", nomAuteur=" + nomAuteur + ", prenomAuteur=" + prenomAuteur + ", estDisponible="
 				+ estDisponible + ", numSerie=" + numSerie + ", serie=" + serie + "]";
 	}
@@ -59,11 +55,6 @@ public class Document {
 		return titre;
 	}
 	
-	/**
-	 * Assigne une serie au document en l'ajoutant a la liste des document de la serie
-	 * @param s		La serie qu'on ajoute
-	 * @param numSerie		Le numero de serie du document (attention ne prend pas en compte les doublons de num)
-	 */
 	public void setSerie(Serie s, int numSerie) {
 		
 		this.serie = s;
@@ -71,12 +62,6 @@ public class Document {
 		s.ajouterDocument(this);
 	}
 	
-	/**
-	 * retourne la date convertie en entier car
-	 * certaines date ont l'annee dans leur texte mais aussi
-	 * des mots ex : 2017 impr.
-	 * @return		partie int de la date
-	 */
 	public int dateToInt() {
 		String intValue = date.replaceAll("[^0-9]", "");
 		int retour = -100000;
